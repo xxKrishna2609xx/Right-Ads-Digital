@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import FloatingButtons from './components/FloatingButtons'
 import ScrollToTop from './components/ScrollToTop'
+import ChatBot from './components/ChatBot'
 import Home from './pages/Home'
 import Services from './pages/Services'
 import About from './pages/About'
@@ -27,6 +28,7 @@ function App() {
         </Routes>
         <Footer />
         <FloatingButtons />
+        <ChatBot />
       </div>
     </Router>
   )

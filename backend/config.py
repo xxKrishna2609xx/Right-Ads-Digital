@@ -25,6 +25,10 @@ class Settings(BaseSettings):
     # Leave empty to use the in-memory fallback (great for development/demo).
     FIREBASE_CREDENTIALS_PATH: str = ""
 
+    # ── Gemini AI ──
+    # Google Gemini API key for the AI chatbot endpoint.
+    GEMINI_API_KEY: str = ""
+
     @property
     def allowed_origins_list(self) -> list[str]:
         return [o.strip() for o in self.ALLOWED_ORIGINS.split(",") if o.strip()]

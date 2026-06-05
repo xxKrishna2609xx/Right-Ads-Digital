@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from config import settings
 from database import is_using_firestore
-from routers import leads, careers
+from routers import leads, careers, chat
 
 # ── Logging ──────────────────────────────────────────────
 logging.basicConfig(
@@ -24,7 +24,7 @@ app = FastAPI(
     title="Right Ads Digital — API",
     description=(
         "Backend API for the Right Ads Digital Agency website.\n\n"
-        "**Public endpoints** — Contact form & career applications.\n"
+        "**Public endpoints** — Contact form, career applications & AI chatbot.\n"
         "**Admin endpoints** — Protected by `?api_key=` query param.\n\n"
         "Swagger UI: `/docs` | ReDoc: `/redoc`"
     ),
@@ -48,6 +48,7 @@ app.add_middleware(
 # ── Routers ───────────────────────────────────────────────
 app.include_router(leads.router)
 app.include_router(careers.router)
+app.include_router(chat.router)
 
 
 # ── Root endpoints ────────────────────────────────────────
