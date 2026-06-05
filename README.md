@@ -1,136 +1,214 @@
-# ⚡ Right Ads Digital Agency
+# ⚡ Right Ads Digital — Agency Website
 
-> A premium, high-performance, and visually stunning web application for Right Ads Digital Agency. Features smooth micro-animations, structured services navigation, automated workflows, and a robust FastAPI backend.
-
----
-
-## 🎨 Design System & Aesthetics
-
-The application is crafted with a **modern dark-mode glassmorphic aesthetic** featuring:
-- **Harmonious HSL Palettes**: Elegant deep slates, dark indigos, and vibrant cyan gradients.
-- **Premium Typography**: Using Google Fonts (`Outfit` for headings, `Inter` for body copy) instead of system defaults.
-- **Dynamic Micro-Animations**: Smooth hover transitions, fade-in-up animations, and responsive sliding states powered by Framer Motion.
-- **Responsive Alignment**: Pixel-perfect grid layout optimized across mobile, tablet, and desktop devices.
-- **Transparent Branding**: Custom-processed brand logo with anti-aliasing color correction optimized to blend natively into dark-mode environments.
+> A premium, full-stack digital agency website for **Right Ads Digital** — built with React + Vite on the frontend and FastAPI (Python) on the backend. Features stunning dark-mode glassmorphic design, smooth Framer Motion animations, real API-connected contact forms, and Firebase Firestore integration.
 
 ---
 
-## 🚀 Key Features
+## 📸 Tech Stack
 
-- 🏠 **Home Page**: Interactive client statistics, certified partner timeline, vision/mission accordions, core service capabilities, client testimonials, and quick consultation request banners.
-- 💼 **Services Directory**: Responsive sticky sidebar navigator supporting 14 distinct digital marketing and design services with comprehensive feature checklists.
-- 📜 **Certificates**: Official NSIC, ISO, and MSME/Udyam registration validation and details.
-- 🎨 **Media Gallery**: Filterable grids showcasing agency conferences, Google Partners meets, and corporate events.
-- 🧑‍💻 **Careers Board**: Modern job vacancy listings with a clean application form submission portal.
-- 📍 **Branch Locator**: Google Map integration for 6 active corporate and branch offices (Noida HQ, Sector 2, Faridabad, Mathura, Kota, Dehradun).
-
----
-
-## 🛠️ Technology Stack
-
-| Component | Technology | Description |
+| Layer | Technology | Purpose |
 | :--- | :--- | :--- |
-| **Build Tool** | Vite | Ultra-fast HMR and optimized bundler |
-| **Frontend** | React (JS) | Component-based interactive UI |
-| **Animations** | Framer Motion | Fluid transitions and layout animation |
-| **Icons** | Lucide React | Clean, scalable vector outline icons |
-| **Styling** | Custom HSL CSS | Pure modern CSS design tokens |
-| **Backend** | FastAPI (Python) | Modern, fast, asynchronous web API |
-| **Database** | Firebase Admin | Reliable real-time cloud data storage |
+| **Frontend** | React + Vite | Fast, component-based UI |
+| **Animations** | Framer Motion | Fluid transitions & micro-interactions |
+| **Icons** | Lucide React | Clean scalable vector icons |
+| **Styling** | Custom HSL CSS | Dark-mode design tokens |
+| **Backend** | FastAPI (Python) | Async REST API |
+| **Validation** | Pydantic v2 | Type-safe request/response schemas |
+| **Database** | Firebase Firestore | Cloud data storage |
+| **Dev Store** | In-Memory Fallback | Works without Firebase credentials |
 
 ---
 
-## 📂 Directory Structure
+## 🚀 Quick Start
 
-```text
-Right Ads Digital/
-├── frontend/               # React + Vite Client Application
-│   ├── public/             # Static assets (transparent logos, icons)
-│   ├── src/
-│   │   ├── assets/         # App asset directories
-│   │   ├── components/     # Reusable UI elements (Navbar, Footer, Home sections)
-│   │   ├── pages/          # Page layouts (About, Career, Contact, Services, etc.)
-│   │   ├── App.css         # Styling defaults and utility animations
-│   │   ├── index.css       # Core HSL color variables and global layout system
-│   │   └── main.jsx        # App entry point
-│   ├── package.json        # Frontend dependencies
-│   └── vite.config.js      # Vite build configuration
-│
-├── backend/                # Python FastAPI Backend
-│   ├── main.py             # Server endpoints & database config
-│   ├── requirements.txt    # Python dependency manifest
-│   └── venv/               # Python virtual environment
-│
-├── README.md               # Project documentation
-└── .gitignore              # Project-wide git filter configuration
-```
+> **You need two terminals** — one for the backend, one for the frontend.  
+> Start the **backend first**, then the frontend.
 
 ---
 
-## 💻 Getting Started
-
-### Prerequisites
-
-Ensure you have the following installed on your system:
-- **Node.js** (v18 or higher)
-- **Python** (v3.10 or higher)
-
----
-
-### 1. Frontend Setup & Execution
+### ① Backend — FastAPI Server
 
 ```bash
-# Navigate to the frontend directory
-cd frontend
-
-# Install package dependencies
-npm install
-
-# Run the development server (default port: 5173)
-npm run dev
-```
-
-The frontend application will be active at **[http://localhost:5173/](http://localhost:5173/)**.
-
----
-
-### 2. Backend Setup & Execution
-
-```bash
-# Navigate to the backend directory
+# 1. Navigate into the backend folder
 cd backend
 
-# Create a Python virtual environment
+# 2. Create a Python virtual environment
 python -m venv venv
 
-# Activate the virtual environment
-# On Windows (PowerShell):
+# 3. Activate the virtual environment
+#    Windows (PowerShell):
 venv\Scripts\Activate.ps1
-# On macOS/Linux:
+#    macOS / Linux:
 source venv/bin/activate
 
-# Install required python libraries
+# 4. Install all Python dependencies
 pip install -r requirements.txt
 
-# Run the development FastAPI server
+# 5. (Optional) Copy the environment template and edit it
+copy .env.example .env      # Windows
+cp .env.example .env        # macOS/Linux
+
+# 6. Start the development server
 uvicorn main:app --reload --port 8000
 ```
 
-The API endpoints will be accessible at **[http://localhost:8000/](http://localhost:8000/)** and the interactive API documentation will be available at **[http://localhost:8000/docs](http://localhost:8000/docs)**.
+✅ Backend is now running at:
+
+| URL | Description |
+| :--- | :--- |
+| `http://localhost:8000/` | Welcome & status |
+| `http://localhost:8000/health` | Health check |
+| `http://localhost:8000/docs` | **Swagger UI** (interactive API docs) |
+| `http://localhost:8000/redoc` | ReDoc API reference |
 
 ---
 
-## 🔒 Environment Configuration
+### ② Frontend — React + Vite Dev Server
 
-To configure environment variables for the project, create a `.env` file inside the respective directories.
+```bash
+# 1. Navigate into the frontend folder
+cd frontend
 
-### Frontend (`frontend/.env`)
+# 2. Install Node dependencies
+npm install
+
+# 3. Start the development server
+npm run dev
+```
+
+✅ Frontend is now running at **`http://localhost:5173`**
+
+> The frontend reads `VITE_API_URL` from `frontend/.env` (already pre-configured to point at `http://localhost:8000`).
+
+---
+
+## 🔑 Environment Configuration
+
+### Backend — `backend/.env`
+
 ```env
+# App mode
+APP_ENV=development
+DEBUG=True
+
+# Allowed frontend origins (comma-separated)
+ALLOWED_ORIGINS=http://localhost:5173,http://localhost:5174
+
+# Admin key to access GET /api/leads and GET /api/careers
+ADMIN_API_KEY=changeme-set-a-strong-key-here
+
+# Path to Firebase service account JSON (leave empty to use in-memory fallback)
+FIREBASE_CREDENTIALS_PATH=
+```
+
+### Frontend — `frontend/.env`
+
+```env
+# URL of the FastAPI backend
 VITE_API_URL=http://localhost:8000
 ```
 
-### Backend (`backend/.env`)
-```env
-FIREBASE_CREDENTIALS_PATH=path/to/firebase-key.json
-PORT=8000
+---
+
+## 🛰️ API Endpoints
+
+| Method | Endpoint | Auth | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/` | Public | Welcome message & storage mode |
+| `GET` | `/health` | Public | Health check |
+| `POST` | `/api/leads` | Public | Submit a contact/enquiry form |
+| `GET` | `/api/leads?api_key=` | API Key | List all leads (admin) |
+| `POST` | `/api/careers` | Public | Submit a job application |
+| `GET` | `/api/careers?api_key=` | API Key | List all applications (admin) |
+
+**Example — submit a lead:**
+```bash
+curl -X POST http://localhost:8000/api/leads \
+  -H "Content-Type: application/json" \
+  -d '{"name":"John","email":"john@example.com","phone":"9876543210","message":"Need SEO help"}'
 ```
+
+---
+
+## 📂 Project Structure
+
+```
+Right Ads Digital/
+│
+├── frontend/                   # ⚛️  React + Vite Application
+│   ├── public/
+│   │   ├── logo.png            # Transparent brand logo (dark-mode optimised)
+│   │   └── favicon.svg
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Navbar.jsx      # Sticky nav with dropdowns
+│   │   │   ├── Footer.jsx      # 4-col footer with branches
+│   │   │   ├── ScrollToTop.jsx # Auto scroll-to-top on navigation
+│   │   │   └── home/           # Landing page section components
+│   │   ├── pages/
+│   │   │   ├── Home.jsx        # Landing page (assembles sections)
+│   │   │   ├── Services.jsx    # 14-service sidebar layout
+│   │   │   ├── About.jsx       # Company timeline & highlights
+│   │   │   ├── Contact.jsx     # Form + map + 6 branch offices
+│   │   │   ├── Career.jsx      # Job listings + application form
+│   │   │   └── Gallery.jsx     # Event photo gallery
+│   │   ├── index.css           # Global design tokens & CSS utilities
+│   │   └── App.jsx             # Router + layout shell
+│   ├── .env                    # VITE_API_URL (pre-configured)
+│   └── package.json
+│
+├── backend/                    # 🐍  FastAPI Application
+│   ├── main.py                 # App entry-point & router mounts
+│   ├── config.py               # Pydantic-settings (.env loader)
+│   ├── database.py             # Firebase + in-memory fallback
+│   ├── models/
+│   │   ├── lead.py             # Contact form schemas
+│   │   └── application.py     # Career application schemas
+│   ├── routers/
+│   │   ├── leads.py            # /api/leads endpoints
+│   │   └── careers.py         # /api/careers endpoints
+│   ├── requirements.txt        # Python dependencies
+│   ├── .env.example            # Environment template (copy to .env)
+│   └── venv/                   # Python virtual environment
+│
+├── README.md
+└── .gitignore
+```
+
+---
+
+## 🔥 Key Features
+
+- 🎨 **Glassmorphic dark-mode design** with custom HSL color palette
+- ✨ **Framer Motion** animations — hero carousel, scroll reveals, micro-interactions
+- 📱 **Fully responsive** — mobile, tablet & desktop optimised
+- 🔗 **14 service pages** with sticky sidebar navigation
+- 📬 **Working contact forms** — all connected to the FastAPI backend
+- 🗂️ **Career board** — job listings + live application submission
+- 📍 **6 branch offices** mapped across India
+- 🔒 **Admin API** — read all leads & applications via API key
+- ☁️ **Firebase-ready** — swap to Firestore with a single `.env` change
+- 🏠 **Scroll-to-top** — every page navigation resets to the top
+
+---
+
+## 🔒 Firebase Setup (Optional)
+
+By default the backend uses an **in-memory store** (data resets on restart).  
+To persist data to Firestore:
+
+1. Go to the [Firebase Console](https://console.firebase.google.com/) → your project → **Project Settings → Service Accounts**
+2. Click **Generate new private key** → download as `firebase-key.json`
+3. Place `firebase-key.json` inside `backend/`
+4. Update `backend/.env`:
+   ```env
+   FIREBASE_CREDENTIALS_PATH=firebase-key.json
+   ```
+5. Restart the backend — it will log `✅ Firebase Firestore initialised successfully.`
+
+---
+
+## 🧑‍💻 Author
+
+**Krishna Goyal** — Web Development Intern  
+Right Ads Digital, Noida • June 2026

@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Send, Briefcase, MapPin, Clock, CheckCircle } from 'lucide-react'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+
 const openings = [
   { title: 'SEO Executive', type: 'Full-time', location: 'Noida', exp: '1-3 years', desc: 'Experience in on-page, off-page SEO, keyword research, and Google Analytics.', color: '#6366f1' },
   { title: 'Web Designer', type: 'Full-time', location: 'Noida', exp: '1-2 years', desc: 'Proficiency in Figma, Adobe XD, HTML/CSS. Portfolio required.', color: '#06b6d4' },
@@ -15,13 +17,38 @@ export default function Career() {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
 
+  const [error, setError] = useState(null)
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!form.name || !form.email || !form.phone) return alert('Please fill required fields.')
+    if (!form.name || !form.email || !form.phone || !form.position) {
+      setError('Please fill in all required fields.')
+      return
+    }
+    setError(null)
     setLoading(true)
-    await new Promise(r => setTimeout(r, 1200))
-    setLoading(false)
-    setSubmitted(true)
+    try {
+      const res = await fetch(`${API_URL}/api/careers`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          position: form.position,
+          cover_letter: form.message,
+        }),
+      })
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data?.detail || 'Submission failed. Please try again.')
+      }
+      setSubmitted(true)
+    } catch (err) {
+      setError(err.message || 'Something went wrong. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -100,6 +127,7 @@ export default function Career() {
                     {openings.map(j => <option key={j.title} value={j.title}>{j.title}</option>)}
                   </select>
                   <textarea id="car-msg" className="input-field" rows={4} placeholder="Tell us about yourself..." value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} style={{ resize: 'none' }} />
+                  {error && <p style={{ color: '#f87171', fontSize: '0.85rem', marginBottom: '4px' }}>{error}</p>}
                   <button type="submit" className="btn-primary" style={{ justifyContent: 'center', width: '100%' }} disabled={loading}>
                     {loading ? 'Submitting...' : <><Send size={16} /> Submit Application</>}
                   </button>

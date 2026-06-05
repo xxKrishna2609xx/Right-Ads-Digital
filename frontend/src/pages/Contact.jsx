@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Send, Phone, Mail, MapPin, CheckCircle, Clock } from 'lucide-react'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+
 const branches = [
   { city: 'Noida Office (HQ)', address: 'A-71, 3rd Floor, Sector 15, Noida, UP 201301', phone: '+91-8377072990' },
   { city: 'Noida Branch', address: 'B-135, 4th Floor, Sector 2, Noida, UP 201301', phone: '+91-8377072990' },
@@ -16,13 +18,32 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
 
+  const [error, setError] = useState(null)
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!form.name || !form.email || !form.phone || !form.message) return alert('Please fill in all fields.')
+    if (!form.name || !form.email || !form.phone || !form.message) {
+      setError('Please fill in all fields.')
+      return
+    }
+    setError(null)
     setLoading(true)
-    await new Promise(r => setTimeout(r, 1200))
-    setLoading(false)
-    setSubmitted(true)
+    try {
+      const res = await fetch(`${API_URL}/api/leads`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, source: 'contact_page' }),
+      })
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data?.detail || 'Submission failed. Please try again.')
+      }
+      setSubmitted(true)
+    } catch (err) {
+      setError(err.message || 'Something went wrong. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -111,6 +132,7 @@ export default function Contact() {
                       <input id="cp-email" className="input-field" placeholder="Email Address" type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />
                       <input id="cp-phone" className="input-field" placeholder="Phone Number" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} />
                       <textarea id="cp-msg" className="input-field" rows={5} placeholder="Your Message" style={{ resize: 'none' }} value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} />
+                      {error && <p style={{ color: '#f87171', fontSize: '0.85rem', marginBottom: '4px' }}>{error}</p>}
                       <button type="submit" className="btn-primary" style={{ justifyContent: 'center', width: '100%' }} disabled={loading}>
                         {loading ? 'Sending...' : <><Send size={16} /> Submit Message</>}
                       </button>
