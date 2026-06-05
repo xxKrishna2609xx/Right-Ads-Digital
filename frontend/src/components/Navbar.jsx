@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, ChevronDown, Zap } from 'lucide-react'
+import { Menu, X, ChevronDown, Sun, Moon } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useTheme } from '../context/ThemeContext'
 
 const services = [
   { label: 'Web Design Services', href: '/services/web-design' },
@@ -29,6 +30,7 @@ export default function Navbar() {
   const [servicesOpen, setServicesOpen] = useState(false)
   const [certOpen, setCertOpen] = useState(false)
   const location = useLocation()
+  const { theme, toggleTheme } = useTheme()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -38,21 +40,14 @@ export default function Navbar() {
 
   useEffect(() => { setMobileOpen(false) }, [location])
 
+  const isDark = theme === 'dark'
+
   return (
     <>
       {/* ── TOP INFO BAR ── */}
-      <div className="top-bar" style={{ display: 'none' }} id="topbar-desktop">
-      </div>
       <div style={{
-        background: 'rgba(8,12,20,0.98)',
-        borderBottom: '1px solid rgba(99,102,241,0.1)',
-        display: 'none'
-      }} className="hidden-mobile">
-      </div>
-
-      <div style={{
-        background: 'rgba(8,12,20,0.98)',
-        borderBottom: '1px solid rgba(99,102,241,0.08)',
+        background: 'var(--bg-topbar)',
+        borderBottom: '1px solid var(--border-faint)',
       }}>
         <div className="container-main">
           <div style={{
@@ -61,28 +56,28 @@ export default function Navbar() {
             alignItems: 'center',
             padding: '8px 0',
             fontSize: '0.8rem',
-            color: '#64748b',
+            color: 'var(--top-bar-text)',
           }}>
             <div style={{ display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
-              <a href="tel:+918377072990" style={{ color: '#64748b', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '5px' }}
-                onMouseEnter={e => e.target.style.color = '#818cf8'} onMouseLeave={e => e.target.style.color = '#64748b'}>
+              <a href="tel:+918377072990" style={{ color: 'var(--text-muted)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '5px' }}
+                onMouseEnter={e => e.currentTarget.style.color = '#818cf8'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>
                 📞 +91-8377072990
               </a>
-              <a href="mailto:info@rightads.in" style={{ color: '#64748b', textDecoration: 'none' }}
-                onMouseEnter={e => e.target.style.color = '#818cf8'} onMouseLeave={e => e.target.style.color = '#64748b'}>
+              <a href="mailto:info@rightads.in" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}
+                onMouseEnter={e => e.currentTarget.style.color = '#818cf8'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>
                 ✉ info@rightads.in
               </a>
-              <span>🕐 Mon – Sun (8AM – 8PM)</span>
+              <span style={{ color: 'var(--text-muted)' }}>🕐 Mon – Sun (8AM – 8PM)</span>
             </div>
             <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
               <a href="https://www.facebook.com/rightads" target="_blank" rel="noreferrer"
-                style={{ color: '#64748b', textDecoration: 'none', fontSize: '0.8rem' }}
-                onMouseEnter={e => e.target.style.color = '#818cf8'} onMouseLeave={e => e.target.style.color = '#64748b'}>
+                style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.8rem' }}
+                onMouseEnter={e => e.currentTarget.style.color = '#818cf8'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>
                 Facebook
               </a>
               <a href="https://www.instagram.com/rightadsdigital" target="_blank" rel="noreferrer"
-                style={{ color: '#64748b', textDecoration: 'none', fontSize: '0.8rem' }}
-                onMouseEnter={e => e.target.style.color = '#818cf8'} onMouseLeave={e => e.target.style.color = '#64748b'}>
+                style={{ color: 'var(--text-muted)', textDecoration: 'none', fontSize: '0.8rem' }}
+                onMouseEnter={e => e.currentTarget.style.color = '#818cf8'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>
                 Instagram
               </a>
             </div>
@@ -96,11 +91,11 @@ export default function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         className="navbar"
         style={{
-          background: scrolled ? 'rgba(11,15,25,0.92)' : 'rgba(11,15,25,0.75)',
+          background: scrolled ? 'var(--bg-navbar)' : 'var(--bg-navbar-transparent)',
           backdropFilter: 'blur(18px)',
           WebkitBackdropFilter: 'blur(18px)',
-          borderBottom: scrolled ? '1px solid rgba(99,102,241,0.15)' : '1px solid rgba(99,102,241,0.06)',
-          boxShadow: scrolled ? '0 4px 30px rgba(0,0,0,0.3)' : 'none',
+          borderBottom: scrolled ? '1px solid var(--border-primary)' : '1px solid var(--border-faint)',
+          boxShadow: scrolled ? `0 4px 30px var(--shadow-navbar)` : 'none',
         }}
       >
         <div className="container-main">
@@ -108,13 +103,14 @@ export default function Navbar() {
 
             {/* Logo */}
             <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-              <img 
-                src="/logo.png" 
-                alt="Right Ads Logo" 
-                style={{ 
-                  height: '42px', 
-                  objectFit: 'contain'
-                }} 
+              <img
+                src="/logo.png"
+                alt="Right Ads Logo"
+                style={{
+                  height: '42px',
+                  objectFit: 'contain',
+                  filter: isDark ? 'none' : 'brightness(0.85) saturate(1.2)',
+                }}
               />
             </Link>
 
@@ -178,8 +174,46 @@ export default function Navbar() {
               <NavLink to="/contact" label="Contact" />
             </div>
 
-            {/* CTA + Hamburger */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            {/* CTA + Theme Toggle + Hamburger */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+
+              {/* Theme Toggle Switch */}
+              <button
+                onClick={toggleTheme}
+                className="theme-toggle"
+                aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+                title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+                id="theme-toggle-btn"
+              >
+                <div className="theme-toggle-knob">
+                  <AnimatePresence mode="wait">
+                    {isDark ? (
+                      <motion.span
+                        key="moon"
+                        initial={{ rotate: -30, opacity: 0 }}
+                        animate={{ rotate: 0, opacity: 1 }}
+                        exit={{ rotate: 30, opacity: 0 }}
+                        transition={{ duration: 0.15 }}
+                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                      >
+                        <Moon size={11} color="white" />
+                      </motion.span>
+                    ) : (
+                      <motion.span
+                        key="sun"
+                        initial={{ rotate: 30, opacity: 0 }}
+                        animate={{ rotate: 0, opacity: 1 }}
+                        exit={{ rotate: -30, opacity: 0 }}
+                        transition={{ duration: 0.15 }}
+                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                      >
+                        <Sun size={11} color="white" />
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </button>
+
               <a href="tel:+918377072990" className="btn-primary" style={{ padding: '10px 20px', fontSize: '0.85rem' }}>
                 📞 Call Us
               </a>
@@ -187,7 +221,7 @@ export default function Navbar() {
                 onClick={() => setMobileOpen(!mobileOpen)}
                 style={{
                   display: 'none', background: 'transparent', border: 'none',
-                  color: '#94a3b8', cursor: 'pointer', padding: '6px',
+                  color: 'var(--text-nav)', cursor: 'pointer', padding: '6px',
                   borderRadius: '8px',
                 }}
                 className="hamburger-btn"
@@ -206,8 +240,8 @@ export default function Navbar() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               style={{
-                background: 'rgba(11,15,25,0.98)',
-                borderTop: '1px solid rgba(99,102,241,0.1)',
+                background: 'var(--overlay-mobile)',
+                borderTop: '1px solid var(--border-subtle)',
                 overflow: 'hidden',
               }}
             >
@@ -221,8 +255,22 @@ export default function Navbar() {
                 <Link to="/gallery" className="mobile-nav-link">Gallery</Link>
                 <Link to="/career" className="mobile-nav-link">Career</Link>
                 <Link to="/contact" className="mobile-nav-link">Contact</Link>
-                <div style={{ marginTop: '12px' }}>
-                  <a href="tel:+918377072990" className="btn-primary" style={{ width: '100%', justifyContent: 'center' }}>📞 +91-8377072990</a>
+                <div style={{ marginTop: '12px', display: 'flex', gap: '10px', alignItems: 'center' }}>
+                  <a href="tel:+918377072990" className="btn-primary" style={{ flex: 1, justifyContent: 'center' }}>📞 +91-8377072990</a>
+                  {/* Mobile theme toggle */}
+                  <button
+                    onClick={toggleTheme}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '8px',
+                      padding: '10px 16px', borderRadius: '12px', border: '1.5px solid var(--border-primary)',
+                      background: 'var(--bg-surface)', color: 'var(--text-primary)',
+                      cursor: 'pointer', fontSize: '0.85rem', fontWeight: 600, fontFamily: 'Inter, sans-serif',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {isDark ? <Sun size={15} /> : <Moon size={15} />}
+                    {isDark ? 'Light Mode' : 'Dark Mode'}
+                  </button>
                 </div>
               </div>
             </motion.div>
@@ -230,7 +278,7 @@ export default function Navbar() {
         </AnimatePresence>
       </motion.nav>
 
-      {/* Responsive styles injected via style tag */}
+      {/* Responsive styles */}
       <style>{`
         @media (max-width: 1024px) {
           .desktop-nav { display: none !important; }
@@ -248,7 +296,7 @@ function NavLink({ to, label }) {
   const location = useLocation()
   const active = location.pathname === to
   return (
-    <Link to={to} className="nav-link" style={{ color: active ? '#a5b4fc' : '#94a3b8', background: active ? 'rgba(99,102,241,0.1)' : 'transparent' }}>
+    <Link to={to} className="nav-link" style={{ color: active ? 'var(--text-nav-active)' : 'var(--text-nav)', background: active ? 'var(--bg-highlight)' : 'transparent' }}>
       {label}
     </Link>
   )

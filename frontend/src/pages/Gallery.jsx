@@ -23,16 +23,16 @@ export default function Gallery() {
       <section style={{
         padding: '100px 0 72px',
         position: 'relative', overflow: 'hidden',
-        background: 'linear-gradient(135deg, #080c14 0%, #0f172a 100%)',
+        background: 'var(--bg-hero-page)',
       }} className="bg-grid">
         <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse at 50% 50%, rgba(16,185,129,0.08) 0%, transparent 65%)' }} />
         <div className="container-main" style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
             <div className="section-badge" style={{ margin: '0 auto 16px' }}>Event Gallery</div>
-            <h1 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: 'clamp(2.2rem, 5vw, 3.8rem)', color: '#f1f5f9', lineHeight: 1.15, marginBottom: '16px' }}>
+            <h1 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: 'clamp(2.2rem, 5vw, 3.8rem)', color: 'var(--text-primary)', lineHeight: 1.15, marginBottom: '16px' }}>
               Our <span className="gradient-text">Gallery</span>
             </h1>
-            <p style={{ color: '#64748b', fontSize: '1.1rem', maxWidth: '520px', margin: '0 auto', lineHeight: 1.7 }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', maxWidth: '520px', margin: '0 auto', lineHeight: 1.7 }}>
               Moments from our events, workshops, campaigns, and team activities over the years.
             </p>
           </motion.div>
@@ -51,7 +51,7 @@ export default function Gallery() {
                 transition={{ delay: Math.min(i * 0.06, 0.5) }}
                 viewport={{ once: true }}
                 className="card-hover"
-                style={{ borderRadius: '18px', overflow: 'hidden', background: 'rgba(30,41,59,0.5)', border: '1px solid rgba(99,102,241,0.1)' }}
+                style={{ borderRadius: '18px', overflow: 'hidden', background: 'var(--bg-surface)', border: '1px solid var(--border-card)' }}
               >
                 {/* Image placeholder */}
                 <div style={{
@@ -73,7 +73,7 @@ export default function Gallery() {
                   <div style={{ color: ev.color, fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '5px' }}>
                     {ev.category}
                   </div>
-                  <h3 style={{ color: '#e2e8f0', fontWeight: 700, fontSize: '0.9rem', lineHeight: 1.4 }}>{ev.title}</h3>
+                  <h3 style={{ color: 'var(--text-heading)', fontWeight: 700, fontSize: '0.9rem', lineHeight: 1.4 }}>{ev.title}</h3>
                 </div>
               </motion.div>
             ))}

@@ -8,7 +8,6 @@ export default function ContactSection() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
-
   const [error, setError] = useState(null)
 
   const handleSubmit = async (e) => {
@@ -38,17 +37,17 @@ export default function ContactSection() {
   }
 
   return (
-    <section className="section" style={{ background: 'rgba(11,15,25,0.8)' }}>
+    <section className="section" style={{ background: 'var(--bg-section-alt)' }}>
       <div className="container-main">
         <div className="grid-2">
 
           {/* Left – Info */}
           <motion.div initial={{ opacity: 0, x: -35 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
             <div className="section-badge">Get In Touch</div>
-            <h2 style={{ fontFamily: 'Outfit, sans-serif', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, lineHeight: 1.15, marginBottom: '14px' }}>
+            <h2 style={{ fontFamily: 'Outfit, sans-serif', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, lineHeight: 1.15, marginBottom: '14px', color: 'var(--text-heading)' }}>
               You Can <span className="gradient-text">Contact Us</span>
             </h2>
-            <p style={{ color: '#64748b', lineHeight: 1.75, marginBottom: '32px' }}>
+            <p style={{ color: 'var(--text-muted)', lineHeight: 1.75, marginBottom: '32px' }}>
               Looking for a new website, SEO strategy, or wanting to grow online? We're here to help.
             </p>
 
@@ -63,7 +62,7 @@ export default function ContactSection() {
                   style={{
                     display: 'flex', alignItems: 'center', gap: '16px',
                     padding: '16px', borderRadius: '14px', textDecoration: 'none',
-                    background: 'rgba(30,41,59,0.5)', border: '1px solid rgba(99,102,241,0.1)',
+                    background: 'var(--bg-surface)', border: '1px solid var(--border-card)',
                   }}>
                   <div style={{
                     width: '40px', height: '40px', borderRadius: '10px', flexShrink: 0,
@@ -73,8 +72,8 @@ export default function ContactSection() {
                     <Icon size={17} style={{ color }} />
                   </div>
                   <div>
-                    <div style={{ color: '#475569', fontSize: '0.75rem', marginBottom: '2px' }}>{label}</div>
-                    <div style={{ color: '#e2e8f0', fontWeight: 500, fontSize: '0.875rem' }}>{value}</div>
+                    <div style={{ color: 'var(--text-faint)', fontSize: '0.75rem', marginBottom: '2px' }}>{label}</div>
+                    <div style={{ color: 'var(--text-subheading)', fontWeight: 500, fontSize: '0.875rem' }}>{value}</div>
                   </div>
                 </a>
               ))}
@@ -90,13 +89,13 @@ export default function ContactSection() {
           >
             <div style={{
               padding: '36px', borderRadius: '24px',
-              background: 'rgba(30,41,59,0.55)', border: '1px solid rgba(99,102,241,0.15)',
+              background: 'var(--bg-surface)', border: '1px solid var(--border-primary)',
             }}>
               {submitted ? (
                 <div style={{ textAlign: 'center', padding: '40px 0' }}>
                   <CheckCircle size={52} style={{ color: '#22c55e', margin: '0 auto 16px', display: 'block' }} />
-                  <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700, color: '#fff', fontSize: '1.4rem', marginBottom: '8px' }}>Message Sent!</h3>
-                  <p style={{ color: '#64748b' }}>We'll get back to you within 24 hours.</p>
+                  <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700, color: 'var(--text-heading)', fontSize: '1.4rem', marginBottom: '8px' }}>Message Sent!</h3>
+                  <p style={{ color: 'var(--text-muted)' }}>We'll get back to you within 24 hours.</p>
                   <button
                     onClick={() => { setSubmitted(false); setForm({ name: '', email: '', phone: '', message: '' }) }}
                     className="btn-outline" style={{ marginTop: '20px' }}>
@@ -105,7 +104,7 @@ export default function ContactSection() {
                 </div>
               ) : (
                 <>
-                  <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700, color: '#fff', fontSize: '1.2rem', marginBottom: '24px' }}>Send Us a Message</h3>
+                  <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700, color: 'var(--text-heading)', fontSize: '1.2rem', marginBottom: '24px' }}>Send Us a Message</h3>
                   <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                       <input id="hs-name" className="input-field" placeholder="Your Name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />

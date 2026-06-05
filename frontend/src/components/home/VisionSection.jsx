@@ -45,10 +45,10 @@ export default function VisionSection() {
             transition={{ duration: 0.6 }}
           >
             <div className="section-badge">Our Story</div>
-            <h2 style={{ fontFamily: 'Outfit, sans-serif', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, lineHeight: 1.15, marginBottom: '16px' }}>
+            <h2 style={{ fontFamily: 'Outfit, sans-serif', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, lineHeight: 1.15, marginBottom: '16px', color: 'var(--text-heading)' }}>
               Our Best <span className="gradient-text">Work</span>
             </h2>
-            <p style={{ color: '#64748b', marginBottom: '28px', lineHeight: 1.75 }}>
+            <p style={{ color: 'var(--text-muted)', marginBottom: '28px', lineHeight: 1.75 }}>
               By combining powerful technology with experts who help you manage and make sense of it all, we simplify your marketing to get exceptional results.
             </p>
 
@@ -59,8 +59,8 @@ export default function VisionSection() {
                   style={{
                     borderRadius: '14px',
                     overflow: 'hidden',
-                    background: open === i ? `${item.color}0d` : 'rgba(30,41,59,0.45)',
-                    border: open === i ? `1px solid ${item.color}35` : '1px solid rgba(99,102,241,0.1)',
+                    background: open === i ? `${item.color}0d` : 'var(--bg-surface)',
+                    border: open === i ? `1px solid ${item.color}35` : '1px solid var(--border-card)',
                     transition: 'all 0.3s ease',
                   }}
                 >
@@ -78,10 +78,10 @@ export default function VisionSection() {
                       }}>
                         <item.icon size={17} style={{ color: item.color }} />
                       </div>
-                      <span style={{ fontWeight: 600, color: '#f1f5f9', fontSize: '0.95rem' }}>{item.title}</span>
+                      <span style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.95rem' }}>{item.title}</span>
                     </div>
                     <ChevronDown
-                      size={17} style={{ color: '#64748b', transition: 'transform 0.3s', transform: open === i ? 'rotate(180deg)' : 'none', flexShrink: 0 }}
+                      size={17} style={{ color: 'var(--text-muted)', transition: 'transform 0.3s', transform: open === i ? 'rotate(180deg)' : 'none', flexShrink: 0 }}
                     />
                   </button>
                   <AnimatePresence>
@@ -93,7 +93,7 @@ export default function VisionSection() {
                         transition={{ duration: 0.28 }}
                       >
                         <div style={{
-                          padding: '0 20px 18px', color: '#64748b', fontSize: '0.875rem', lineHeight: 1.75,
+                          padding: '0 20px 18px', color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.75,
                           borderTop: `1px solid ${item.color}20`, paddingTop: '14px',
                         }}>
                           {item.content}
@@ -116,14 +116,14 @@ export default function VisionSection() {
             <div style={{
               padding: '36px', borderRadius: '24px', position: 'relative', overflow: 'hidden',
               background: 'linear-gradient(135deg, rgba(99,102,241,0.1), rgba(6,182,212,0.05))',
-              border: '1px solid rgba(99,102,241,0.2)',
+              border: '1px solid var(--border-primary)',
             }}>
               <div style={{
                 position: 'absolute', top: 0, right: 0, width: '180px', height: '180px',
                 borderRadius: '50%', background: '#6366f1', opacity: 0.08, filter: 'blur(40px)',
                 transform: 'translate(30%, -30%)',
               }} />
-              <h3 style={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', marginBottom: '24px' }}>
+              <h3 style={{ color: 'var(--text-heading)', fontWeight: 700, fontSize: '1.1rem', marginBottom: '24px' }}>
                 <span className="gradient-text">How Right Ads Can Help</span>
               </h3>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
@@ -136,8 +136,8 @@ export default function VisionSection() {
                     viewport={{ once: true }}
                     style={{
                       display: 'flex', alignItems: 'center', gap: '8px',
-                      fontSize: '0.8rem', color: '#94a3b8', padding: '8px 10px', borderRadius: '8px',
-                      background: 'rgba(99,102,241,0.06)',
+                      fontSize: '0.8rem', color: 'var(--text-secondary)', padding: '8px 10px', borderRadius: '8px',
+                      background: 'var(--bg-highlight)',
                     }}
                   >
                     <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#6366f1', flexShrink: 0 }} />

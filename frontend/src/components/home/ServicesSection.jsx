@@ -19,7 +19,7 @@ const services = [
 
 export default function ServicesSection() {
   return (
-    <section className="section bg-grid" style={{ background: 'rgba(11,15,25,0.85)', position: 'relative' }}>
+    <section className="section bg-grid" style={{ background: 'var(--bg-section-alt)', position: 'relative' }}>
       <div style={{
         position: 'absolute', inset: 0, pointerEvents: 'none',
         background: 'radial-gradient(ellipse at 20% 50%, rgba(99,102,241,0.05) 0%, transparent 60%)',
@@ -37,7 +37,7 @@ export default function ServicesSection() {
           <h2 style={{ fontFamily: 'Outfit, sans-serif', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, marginBottom: '14px' }}>
             Our <span className="gradient-text">Services</span>
           </h2>
-          <p style={{ color: '#64748b', maxWidth: '520px', margin: '0 auto', lineHeight: 1.75 }}>
+          <p style={{ color: 'var(--text-muted)', maxWidth: '520px', margin: '0 auto', lineHeight: 1.75 }}>
             By combining powerful technology with experts who help you manage and make sense of it all, we simplify your marketing to get exceptional results.
           </p>
         </motion.div>
@@ -66,8 +66,8 @@ export default function ServicesSection() {
                     height: '100%',
                     padding: '24px',
                     borderRadius: '16px',
-                    background: 'rgba(30,41,59,0.45)',
-                    border: '1px solid rgba(99,102,241,0.1)',
+                    background: 'var(--bg-surface)',
+                    border: '1px solid var(--border-card)',
                     transition: 'all 0.3s ease',
                   }}
                   onMouseEnter={e => {
@@ -76,9 +76,9 @@ export default function ServicesSection() {
                     e.currentTarget.style.background = `${svc.color}06`
                   }}
                   onMouseLeave={e => {
-                    e.currentTarget.style.border = '1px solid rgba(99,102,241,0.1)'
+                    e.currentTarget.style.border = 'var(--border-card)'
                     e.currentTarget.style.boxShadow = 'none'
-                    e.currentTarget.style.background = 'rgba(30,41,59,0.45)'
+                    e.currentTarget.style.background = 'var(--bg-surface)'
                   }}
                 >
                   {/* Icon */}
@@ -93,9 +93,9 @@ export default function ServicesSection() {
                   {/* Tag */}
                   <div style={{ color: svc.color, fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '6px' }}>{svc.tag}</div>
                   {/* Title */}
-                  <h3 style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '0.95rem', marginBottom: '8px', lineHeight: 1.4 }}>{svc.title}</h3>
+                  <h3 style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.95rem', marginBottom: '8px', lineHeight: 1.4 }}>{svc.title}</h3>
                   {/* Desc */}
-                  <p style={{ color: '#64748b', fontSize: '0.8rem', lineHeight: 1.65, marginBottom: '14px' }}>{svc.desc}</p>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', lineHeight: 1.65, marginBottom: '14px' }}>{svc.desc}</p>
                   {/* Arrow */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: svc.color, fontSize: '0.8rem', fontWeight: 600 }}>
                     Learn More <ArrowRight size={13} />

@@ -34,7 +34,7 @@ export default function CTABanner() {
             <Link to="/contact" className="btn-primary" style={{ fontSize: '1rem', padding: '14px 32px' }}>
               Start Your Project <ArrowRight size={18} />
             </Link>
-            <a href="tel:+918377072990" className="btn-outline" style={{ fontSize: '1rem', padding: '14px 32px' }}>
+            <a href="tel:+918377072990" className="btn-outline" style={{ fontSize: '1rem', padding: '14px 32px', color: '#a5b4fc', borderColor: 'rgba(165,180,252,0.4)' }}>
               <Phone size={16} /> +91-8377072990
             </a>
           </div>

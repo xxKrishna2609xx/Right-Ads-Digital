@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Zap, Phone, Mail, MapPin } from 'lucide-react'
+import { Phone, Mail, MapPin } from 'lucide-react'
 
 function FacebookIcon() {
   return (
@@ -50,15 +50,16 @@ const quickLinks = [
   { label: 'MSME / Udyam', href: '/services/msme' },
 ]
 
-const linkStyle = {
+// Footer stays dark in both themes — brand consistency
+const footerLinkStyle = {
   display: 'flex', alignItems: 'center', gap: '6px',
-  color: '#475569', fontSize: '0.85rem', textDecoration: 'none',
+  color: '#6b7280', fontSize: '0.85rem', textDecoration: 'none',
   transition: 'color 0.2s ease', marginBottom: '8px',
 }
 
 export default function Footer() {
   return (
-    <footer style={{ background: '#060a12', borderTop: '1px solid rgba(99,102,241,0.1)' }}>
+    <footer style={{ background: 'var(--bg-footer)', borderTop: '1px solid rgba(99,102,241,0.15)' }}>
       <div className="container-main" style={{ paddingTop: '64px', paddingBottom: '48px' }}>
 
         {/* 4-col grid */}
@@ -72,23 +73,20 @@ export default function Footer() {
           {/* Brand */}
           <div style={{ gridColumn: 'span 1' }}>
             <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', marginBottom: '16px' }}>
-              <img 
-                src="/logo.png" 
-                alt="Right Ads Logo" 
-                style={{ 
-                  height: '40px', 
-                  objectFit: 'contain'
-                }} 
+              <img
+                src="/logo.png"
+                alt="Right Ads Logo"
+                style={{ height: '40px', objectFit: 'contain' }}
               />
             </Link>
-            <p style={{ color: '#475569', fontSize: '0.8rem', lineHeight: 1.75, marginBottom: '16px' }}>
+            <p style={{ color: '#6b7280', fontSize: '0.8rem', lineHeight: 1.75, marginBottom: '16px' }}>
               Leading Digital Marketing Agency in Noida with 11+ years of experience. Official Google Partner & Bing Accredited Professional.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
-              <a href="tel:+918377072990" style={linkStyle} onMouseEnter={e => e.currentTarget.style.color = '#818cf8'} onMouseLeave={e => e.currentTarget.style.color = '#475569'}>
+              <a href="tel:+918377072990" style={footerLinkStyle} onMouseEnter={e => e.currentTarget.style.color = '#818cf8'} onMouseLeave={e => e.currentTarget.style.color = '#6b7280'}>
                 <Phone size={13} /> +91-8377072990
               </a>
-              <a href="mailto:info@rightads.in" style={linkStyle} onMouseEnter={e => e.currentTarget.style.color = '#818cf8'} onMouseLeave={e => e.currentTarget.style.color = '#475569'}>
+              <a href="mailto:info@rightads.in" style={footerLinkStyle} onMouseEnter={e => e.currentTarget.style.color = '#818cf8'} onMouseLeave={e => e.currentTarget.style.color = '#6b7280'}>
                 <Mail size={13} /> info@rightads.in
               </a>
             </div>
@@ -102,10 +100,10 @@ export default function Footer() {
                     width: '34px', height: '34px', borderRadius: '8px', flexShrink: 0,
                     background: 'rgba(30,41,59,0.6)', border: '1px solid rgba(99,102,241,0.15)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: '#475569', textDecoration: 'none', transition: 'all 0.2s',
+                    color: '#6b7280', textDecoration: 'none', transition: 'all 0.2s',
                   }}
                   onMouseEnter={e => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = 'rgba(99,102,241,0.4)' }}
-                  onMouseLeave={e => { e.currentTarget.style.color = '#475569'; e.currentTarget.style.borderColor = 'rgba(99,102,241,0.15)' }}
+                  onMouseLeave={e => { e.currentTarget.style.color = '#6b7280'; e.currentTarget.style.borderColor = 'rgba(99,102,241,0.15)' }}
                 >
                   <Icon />
                 </a>
@@ -117,8 +115,8 @@ export default function Footer() {
           <div>
             <h4 style={{ color: '#fff', fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '16px' }}>Our Services</h4>
             {services.map(s => (
-              <Link key={s.href} to={s.href} style={linkStyle}
-                onMouseEnter={e => e.currentTarget.style.color = '#818cf8'} onMouseLeave={e => e.currentTarget.style.color = '#475569'}>
+              <Link key={s.href} to={s.href} style={footerLinkStyle}
+                onMouseEnter={e => e.currentTarget.style.color = '#818cf8'} onMouseLeave={e => e.currentTarget.style.color = '#6b7280'}>
                 <span style={{ color: '#6366f1', fontSize: '0.9rem' }}>›</span> {s.label}
               </Link>
             ))}
@@ -128,8 +126,8 @@ export default function Footer() {
           <div>
             <h4 style={{ color: '#fff', fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '16px' }}>Quick Links</h4>
             {quickLinks.map(l => (
-              <Link key={l.href} to={l.href} style={linkStyle}
-                onMouseEnter={e => e.currentTarget.style.color = '#818cf8'} onMouseLeave={e => e.currentTarget.style.color = '#475569'}>
+              <Link key={l.href} to={l.href} style={footerLinkStyle}
+                onMouseEnter={e => e.currentTarget.style.color = '#818cf8'} onMouseLeave={e => e.currentTarget.style.color = '#6b7280'}>
                 <span style={{ color: '#6366f1', fontSize: '0.9rem' }}>›</span> {l.label}
               </Link>
             ))}
@@ -144,7 +142,7 @@ export default function Footer() {
                   <MapPin size={12} style={{ color: '#6366f1', marginTop: '3px', flexShrink: 0 }} />
                   <div>
                     <div style={{ color: '#e2e8f0', fontSize: '0.75rem', fontWeight: 600, marginBottom: '2px' }}>{b.city}</div>
-                    <div style={{ color: '#475569', fontSize: '0.72rem', lineHeight: 1.5 }}>{b.address}</div>
+                    <div style={{ color: '#6b7280', fontSize: '0.72rem', lineHeight: 1.5 }}>{b.address}</div>
                   </div>
                 </div>
               ))}
@@ -159,7 +157,7 @@ export default function Footer() {
           marginTop: '24px', display: 'flex', flexWrap: 'wrap',
           justifyContent: 'space-between', alignItems: 'center', gap: '12px',
         }}>
-          <p style={{ color: '#334155', fontSize: '0.8rem' }}>
+          <p style={{ color: '#4b5563', fontSize: '0.8rem' }}>
             © 2024 Right Ads Digital. All rights reserved. Designed & Developed by{' '}
             <span style={{ color: '#818cf8', fontWeight: 500 }}>Right Ads</span>.
           </p>

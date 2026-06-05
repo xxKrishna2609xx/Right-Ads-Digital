@@ -16,7 +16,6 @@ export default function Career() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', position: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
-
   const [error, setError] = useState(null)
 
   const handleSubmit = async (e) => {
@@ -57,16 +56,16 @@ export default function Career() {
       <section style={{
         padding: '100px 0 72px',
         position: 'relative', overflow: 'hidden',
-        background: 'linear-gradient(135deg, #080c14 0%, #0f172a 100%)',
+        background: 'var(--bg-hero-page)',
       }} className="bg-grid">
         <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse at 50% 50%, rgba(245,158,11,0.08) 0%, transparent 65%)' }} />
         <div className="container-main" style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
             <div className="section-badge" style={{ margin: '0 auto 16px' }}>Join the Team</div>
-            <h1 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: 'clamp(2.2rem, 5vw, 3.8rem)', color: '#f1f5f9', lineHeight: 1.15, marginBottom: '16px' }}>
+            <h1 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: 'clamp(2.2rem, 5vw, 3.8rem)', color: 'var(--text-primary)', lineHeight: 1.15, marginBottom: '16px' }}>
               Build Your Career at <span className="gradient-text">Right Ads</span>
             </h1>
-            <p style={{ color: '#64748b', fontSize: '1.1rem', maxWidth: '540px', margin: '0 auto', lineHeight: 1.7 }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', maxWidth: '540px', margin: '0 auto', lineHeight: 1.7 }}>
               Join a passionate team of digital innovators, marketers, and creators. We offer growth, learning, and the chance to make a real impact.
             </p>
           </motion.div>
@@ -76,7 +75,7 @@ export default function Career() {
       {/* ── OPENINGS ── */}
       <section style={{ padding: '80px 0' }}>
         <div className="container-main">
-          <h2 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: '1.8rem', color: '#fff', marginBottom: '32px' }}>
+          <h2 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: '1.8rem', color: 'var(--text-heading)', marginBottom: '32px' }}>
             Current Openings
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '18px', marginBottom: '72px' }}>
@@ -84,18 +83,18 @@ export default function Career() {
               <motion.div key={job.title}
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }} viewport={{ once: true }}
                 className="card-hover"
-                style={{ padding: '24px', borderRadius: '18px', background: 'rgba(30,41,59,0.5)', border: `1px solid ${job.color}20` }}>
+                style={{ padding: '24px', borderRadius: '18px', background: 'var(--bg-surface)', border: `1px solid ${job.color}20` }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '12px' }}>
                   <Briefcase size={20} style={{ color: job.color }} />
                   <span style={{ fontSize: '0.72rem', fontWeight: 700, color: job.color, background: `${job.color}15`, padding: '3px 10px', borderRadius: '999px' }}>{job.type}</span>
                 </div>
-                <h3 style={{ color: '#fff', fontWeight: 700, fontSize: '1rem', marginBottom: '8px' }}>{job.title}</h3>
-                <p style={{ color: '#64748b', fontSize: '0.82rem', lineHeight: 1.6, marginBottom: '14px' }}>{job.desc}</p>
+                <h3 style={{ color: 'var(--text-heading)', fontWeight: 700, fontSize: '1rem', marginBottom: '8px' }}>{job.title}</h3>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', lineHeight: 1.6, marginBottom: '14px' }}>{job.desc}</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#475569', fontSize: '0.78rem' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--text-faint)', fontSize: '0.78rem' }}>
                     <MapPin size={11} /> {job.location}
                   </span>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#475569', fontSize: '0.78rem' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--text-faint)', fontSize: '0.78rem' }}>
                     <Clock size={11} /> {job.exp}
                   </span>
                 </div>
@@ -105,15 +104,15 @@ export default function Career() {
 
           {/* ── APPLICATION FORM ── */}
           <div style={{ maxWidth: '640px', margin: '0 auto' }}>
-            <h2 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: '1.8rem', color: '#fff', marginBottom: '28px', textAlign: 'center' }}>
+            <h2 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: '1.8rem', color: 'var(--text-heading)', marginBottom: '28px', textAlign: 'center' }}>
               Apply Now
             </h2>
-            <div style={{ padding: '40px', borderRadius: '24px', background: 'rgba(30,41,59,0.55)', border: '1px solid rgba(99,102,241,0.15)' }}>
+            <div style={{ padding: '40px', borderRadius: '24px', background: 'var(--bg-surface)', border: '1px solid var(--border-primary)' }}>
               {submitted ? (
                 <div style={{ textAlign: 'center', padding: '40px 0' }}>
                   <CheckCircle size={52} style={{ color: '#22c55e', margin: '0 auto 16px', display: 'block' }} />
-                  <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700, color: '#fff', fontSize: '1.4rem', marginBottom: '8px' }}>Application Submitted!</h3>
-                  <p style={{ color: '#64748b' }}>Our HR team will contact you within 3 working days.</p>
+                  <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700, color: 'var(--text-heading)', fontSize: '1.4rem', marginBottom: '8px' }}>Application Submitted!</h3>
+                  <p style={{ color: 'var(--text-muted)' }}>Our HR team will contact you within 3 working days.</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>

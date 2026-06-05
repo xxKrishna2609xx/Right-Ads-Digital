@@ -64,7 +64,7 @@ const serviceData = {
     subtitle: 'Reach thousands instantly with high open-rate SMS campaigns.',
     color: '#ef4444',
     icon: MessageSquare,
-    description: 'SMS has a 98% open rate. Right Ads manages bulk SMS campaigns that deliver promotional messages, OTPs, and reminders directly to your customers\' phones for immediate engagement.',
+    description: "SMS has a 98% open rate. Right Ads manages bulk SMS campaigns that deliver promotional messages, OTPs, and reminders directly to your customers' phones for immediate engagement.",
     features: ['Bulk SMS Campaigns', 'Transactional SMS', 'Promotional SMS', 'DND Filter Compliance', 'Personalized Messaging', 'Delivery Reports', 'Short Code Services', 'API Integration'],
   },
   'graphic-design': {
@@ -142,7 +142,7 @@ export default function Services() {
   if (!service) {
     return (
       <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '20px' }}>
-        <h2 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', fontWeight: 900, color: '#fff' }}>Service Not Found</h2>
+        <h2 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', fontWeight: 900, color: 'var(--text-heading)' }}>Service Not Found</h2>
         <Link to="/" className="btn-primary">Back to Home</Link>
       </div>
     )
@@ -157,7 +157,7 @@ export default function Services() {
         padding: '96px 0 72px',
         position: 'relative',
         overflow: 'hidden',
-        background: 'linear-gradient(135deg, #080c14 0%, #0f172a 100%)',
+        background: 'var(--bg-hero-page)',
       }} className="bg-grid">
         <div style={{
           position: 'absolute', inset: 0, pointerEvents: 'none',
@@ -185,11 +185,11 @@ export default function Services() {
             <h1 style={{
               fontFamily: 'Outfit, sans-serif', fontWeight: 900,
               fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-              color: '#f1f5f9', lineHeight: 1.15, marginBottom: '16px',
+              color: 'var(--text-primary)', lineHeight: 1.15, marginBottom: '16px',
             }}>
               {service.title}
             </h1>
-            <p style={{ color: '#64748b', fontSize: '1.1rem', maxWidth: '560px', margin: '0 auto' }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', maxWidth: '560px', margin: '0 auto' }}>
               {service.subtitle}
             </p>
           </motion.div>
@@ -214,16 +214,16 @@ export default function Services() {
               style={{
                 position: 'sticky', top: '100px',
                 borderRadius: '18px', overflow: 'hidden',
-                background: 'rgba(30,41,59,0.5)',
-                border: '1px solid rgba(99,102,241,0.15)',
+                background: 'var(--bg-surface)',
+                border: '1px solid var(--border-primary)',
               }}
             >
               <div style={{
                 padding: '16px 20px',
-                borderBottom: '1px solid rgba(99,102,241,0.1)',
-                background: 'rgba(99,102,241,0.06)',
+                borderBottom: '1px solid var(--border-subtle)',
+                background: 'var(--bg-highlight)',
               }}>
-                <h3 style={{ color: '#fff', fontWeight: 700, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                <h3 style={{ color: 'var(--text-heading)', fontWeight: 700, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   All Services
                 </h3>
               </div>
@@ -240,20 +240,20 @@ export default function Services() {
                         fontSize: '0.875rem',
                         textDecoration: 'none',
                         borderLeft: isActive ? `3px solid ${service.color}` : '3px solid transparent',
-                        color: isActive ? '#fff' : '#64748b',
+                        color: isActive ? 'var(--text-primary)' : 'var(--text-muted)',
                         background: isActive ? `${service.color}10` : 'transparent',
                         fontWeight: isActive ? 600 : 400,
                         transition: 'all 0.2s ease',
                       }}
                       onMouseEnter={e => {
                         if (!isActive) {
-                          e.currentTarget.style.color = '#cbd5e1'
-                          e.currentTarget.style.background = 'rgba(99,102,241,0.06)'
+                          e.currentTarget.style.color = 'var(--text-secondary)'
+                          e.currentTarget.style.background = 'var(--bg-highlight)'
                         }
                       }}
                       onMouseLeave={e => {
                         if (!isActive) {
-                          e.currentTarget.style.color = '#64748b'
+                          e.currentTarget.style.color = 'var(--text-muted)'
                           e.currentTarget.style.background = 'transparent'
                         }
                       }}
@@ -274,12 +274,12 @@ export default function Services() {
               {/* Overview */}
               <div style={{
                 padding: '36px', borderRadius: '20px', marginBottom: '24px',
-                background: 'rgba(30,41,59,0.5)', border: '1px solid rgba(99,102,241,0.12)',
+                background: 'var(--bg-surface)', border: '1px solid var(--border-card)',
               }}>
-                <h2 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 800, fontSize: '1.6rem', color: '#fff', marginBottom: '16px' }}>
+                <h2 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 800, fontSize: '1.6rem', color: 'var(--text-heading)', marginBottom: '16px' }}>
                   Overview
                 </h2>
-                <p style={{ color: '#94a3b8', lineHeight: 1.85, fontSize: '1rem', marginBottom: '28px' }}>
+                <p style={{ color: 'var(--text-secondary)', lineHeight: 1.85, fontSize: '1rem', marginBottom: '28px' }}>
                   {service.description}
                 </p>
                 <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
@@ -298,7 +298,7 @@ export default function Services() {
                 background: `${service.color}06`,
                 border: `1px solid ${service.color}20`,
               }}>
-                <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 800, fontSize: '1.3rem', color: '#fff', marginBottom: '24px' }}>
+                <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 800, fontSize: '1.3rem', color: 'var(--text-heading)', marginBottom: '24px' }}>
                   What's Included
                 </h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '12px' }}>
@@ -316,7 +316,7 @@ export default function Services() {
                       }}
                     >
                       <CheckCircle size={14} style={{ color: service.color, flexShrink: 0 }} />
-                      <span style={{ color: '#cbd5e1', fontSize: '0.85rem', fontWeight: 500 }}>{f}</span>
+                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', fontWeight: 500 }}>{f}</span>
                     </motion.div>
                   ))}
                 </div>
@@ -329,14 +329,14 @@ export default function Services() {
       {/* ── CTA SECTION ── */}
       <section style={{
         padding: '64px 0', textAlign: 'center',
-        borderTop: '1px solid rgba(99,102,241,0.1)',
+        borderTop: '1px solid var(--border-subtle)',
         background: `${service.color}06`,
       }}>
         <div className="container-main">
-          <h2 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', color: '#fff', marginBottom: '10px' }}>
+          <h2 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', color: 'var(--text-heading)', marginBottom: '10px' }}>
             Interested in {service.title}?
           </h2>
-          <p style={{ color: '#64748b', marginBottom: '28px', fontSize: '1rem' }}>
+          <p style={{ color: 'var(--text-muted)', marginBottom: '28px', fontSize: '1rem' }}>
             Contact our experts today for a free consultation and customized quote.
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '14px', flexWrap: 'wrap' }}>

@@ -54,14 +54,14 @@ function StatCard({ value, suffix, label, color, delay }) {
       <div style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: '2.8rem', color, lineHeight: 1 }}>
         {count}{suffix}
       </div>
-      <div style={{ color: '#64748b', fontSize: '0.875rem', marginTop: '8px', fontWeight: 500 }}>{label}</div>
+      <div style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginTop: '8px', fontWeight: 500 }}>{label}</div>
     </motion.div>
   )
 }
 
 export default function StatsSection() {
   return (
-    <section className="section-sm" style={{ background: 'rgba(6,182,212,0.02)' }}>
+    <section className="section-sm" style={{ background: 'transparent' }}>
       <div className="divider" />
       <div className="container-main" style={{ paddingTop: '40px', paddingBottom: '40px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>

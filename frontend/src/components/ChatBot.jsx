@@ -147,9 +147,9 @@ export default function ChatBot() {
               height: '520px',
               maxHeight: 'calc(100vh - 240px)',
               borderRadius: '20px',
-              background: 'rgba(11,15,25,0.97)',
-              border: '1px solid rgba(99,102,241,0.25)',
-              boxShadow: '0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(99,102,241,0.1)',
+              background: 'var(--bg-chatbot)',
+              border: '1px solid var(--border-strong)',
+              boxShadow: '0 24px 64px var(--shadow-dropdown), 0 0 0 1px var(--border-subtle)',
               backdropFilter: 'blur(24px)',
               WebkitBackdropFilter: 'blur(24px)',
               display: 'flex',
@@ -161,8 +161,8 @@ export default function ChatBot() {
             {/* Header */}
             <div style={{
               padding: '14px 16px',
-              background: 'linear-gradient(135deg, rgba(99,102,241,0.2), rgba(6,182,212,0.12))',
-              borderBottom: '1px solid rgba(99,102,241,0.15)',
+              background: 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(6,182,212,0.08))',
+              borderBottom: '1px solid var(--border-subtle)',
               display: 'flex',
               alignItems: 'center',
               gap: '10px',
@@ -176,20 +176,20 @@ export default function ChatBot() {
                 <Bot size={18} color="white" />
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '0.9rem', fontFamily: 'Outfit, sans-serif' }}>
+                <div style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.9rem', fontFamily: 'Outfit, sans-serif' }}>
                   Aria
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                   <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22c55e' }} />
-                  <span style={{ color: '#64748b', fontSize: '0.72rem' }}>Right Ads AI Assistant</span>
+                  <span style={{ color: 'var(--text-muted)', fontSize: '0.72rem' }}>Right Ads AI Assistant</span>
                 </div>
               </div>
               <button
                 onClick={resetChat}
                 title="Start new conversation"
-                style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#475569', padding: '4px', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                onMouseEnter={e => e.currentTarget.style.color = '#94a3b8'}
-                onMouseLeave={e => e.currentTarget.style.color = '#475569'}
+                style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-faint)', padding: '4px', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                onMouseEnter={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+                onMouseLeave={e => e.currentTarget.style.color = 'var(--text-faint)'}
               >
                 <RotateCcw size={15} />
               </button>
@@ -241,13 +241,13 @@ export default function ChatBot() {
                       ? 'linear-gradient(135deg, #6366f1, #4f46e5)'
                       : msg.role === 'error'
                         ? 'rgba(239,68,68,0.12)'
-                        : 'rgba(30,41,59,0.8)',
+                        : 'var(--bg-chat-msg)',
                     border: msg.role === 'user'
                       ? 'none'
                       : msg.role === 'error'
                         ? '1px solid rgba(239,68,68,0.25)'
-                        : '1px solid rgba(99,102,241,0.12)',
-                    color: msg.role === 'user' ? '#fff' : msg.role === 'error' ? '#f87171' : '#cbd5e1',
+                        : '1px solid var(--border-card)',
+                    color: msg.role === 'user' ? '#fff' : msg.role === 'error' ? '#f87171' : 'var(--text-secondary)',
                     fontSize: '0.84rem',
                     lineHeight: 1.6,
                     wordBreak: 'break-word',
@@ -285,8 +285,8 @@ export default function ChatBot() {
                   <div style={{
                     padding: '12px 16px',
                     borderRadius: '14px 14px 14px 4px',
-                    background: 'rgba(30,41,59,0.8)',
-                    border: '1px solid rgba(99,102,241,0.12)',
+                    background: 'var(--bg-chat-msg)',
+                    border: '1px solid var(--border-card)',
                     display: 'flex', gap: '4px', alignItems: 'center',
                   }}>
                     {[0, 1, 2].map((dot) => (
@@ -313,11 +313,11 @@ export default function ChatBot() {
                     onClick={() => { setInput(q); inputRef.current?.focus() }}
                     style={{
                       padding: '5px 10px', borderRadius: '999px', fontSize: '0.72rem',
-                      background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)',
+                      background: 'var(--bg-highlight)', border: '1px solid var(--border-primary)',
                       color: '#818cf8', cursor: 'pointer', transition: 'all 0.2s',
                     }}
                     onMouseEnter={e => { e.currentTarget.style.background = 'rgba(99,102,241,0.2)'; e.currentTarget.style.color = '#a5b4fc' }}
-                    onMouseLeave={e => { e.currentTarget.style.background = 'rgba(99,102,241,0.1)'; e.currentTarget.style.color = '#818cf8' }}
+                    onMouseLeave={e => { e.currentTarget.style.background = 'var(--bg-highlight)'; e.currentTarget.style.color = '#818cf8' }}
                   >
                     {q}
                   </button>
@@ -328,7 +328,7 @@ export default function ChatBot() {
             {/* Input bar */}
             <div style={{
               padding: '12px',
-              borderTop: '1px solid rgba(99,102,241,0.12)',
+              borderTop: '1px solid var(--border-subtle)',
               display: 'flex',
               gap: '8px',
               alignItems: 'flex-end',
@@ -343,11 +343,11 @@ export default function ChatBot() {
                 rows={1}
                 style={{
                   flex: 1,
-                  background: 'rgba(30,41,59,0.6)',
-                  border: '1px solid rgba(99,102,241,0.2)',
+                  background: 'var(--bg-input)',
+                  border: '1px solid var(--border-input)',
                   borderRadius: '12px',
                   padding: '10px 13px',
-                  color: '#f1f5f9',
+                  color: 'var(--text-input)',
                   fontSize: '0.85rem',
                   resize: 'none',
                   outline: 'none',
@@ -358,7 +358,7 @@ export default function ChatBot() {
                   transition: 'border-color 0.2s',
                 }}
                 onFocus={e => e.target.style.borderColor = 'rgba(99,102,241,0.5)'}
-                onBlur={e => e.target.style.borderColor = 'rgba(99,102,241,0.2)'}
+                onBlur={e => e.target.style.borderColor = 'var(--border-input)'}
               />
               <button
                 onClick={sendMessage}
@@ -366,7 +366,7 @@ export default function ChatBot() {
                 style={{
                   width: '40px', height: '40px', borderRadius: '12px', flexShrink: 0,
                   background: loading || !input.trim()
-                    ? 'rgba(99,102,241,0.2)'
+                    ? 'var(--bg-highlight)'
                     : 'linear-gradient(135deg, #6366f1, #06b6d4)',
                   border: 'none', cursor: loading || !input.trim() ? 'not-allowed' : 'pointer',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -374,12 +374,12 @@ export default function ChatBot() {
                   boxShadow: loading || !input.trim() ? 'none' : '0 4px 12px rgba(99,102,241,0.3)',
                 }}
               >
-                <Send size={16} color={loading || !input.trim() ? '#475569' : 'white'} />
+                <Send size={16} color={loading || !input.trim() ? 'var(--text-faint)' : 'white'} />
               </button>
             </div>
 
             {/* Powered by footer */}
-            <div style={{ textAlign: 'center', padding: '6px 0 10px', color: '#334155', fontSize: '0.65rem', letterSpacing: '0.03em' }}>
+            <div style={{ textAlign: 'center', padding: '6px 0 10px', color: 'var(--text-muted)', fontSize: '0.65rem', letterSpacing: '0.03em' }}>
               Powered by Gemini AI · Right Ads Digital
             </div>
           </motion.div>

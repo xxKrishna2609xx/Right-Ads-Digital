@@ -11,7 +11,7 @@ export default function TestimonialsSection() {
   return (
     <section className="section" style={{
       position: 'relative', overflow: 'hidden',
-      background: 'linear-gradient(135deg, rgba(99,102,241,0.05) 0%, rgba(6,182,212,0.03) 100%)',
+      background: 'linear-gradient(135deg, rgba(99,102,241,0.04) 0%, rgba(6,182,212,0.02) 100%)',
     }}>
       <div className="container-main">
         <motion.div
@@ -21,10 +21,10 @@ export default function TestimonialsSection() {
           style={{ textAlign: 'center', marginBottom: '48px' }}
         >
           <div className="section-badge" style={{ margin: '0 auto 12px' }}>Client Reviews</div>
-          <h2 style={{ fontFamily: 'Outfit, sans-serif', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, marginBottom: '12px' }}>
+          <h2 style={{ fontFamily: 'Outfit, sans-serif', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, marginBottom: '12px', color: 'var(--text-heading)' }}>
             What Our <span className="gradient-text">Clients Say</span>
           </h2>
-          <p style={{ color: '#64748b', maxWidth: '480px', margin: '0 auto', lineHeight: 1.75 }}>
+          <p style={{ color: 'var(--text-muted)', maxWidth: '480px', margin: '0 auto', lineHeight: 1.75 }}>
             Trusted by hundreds of businesses across India for exceptional digital results.
           </p>
         </motion.div>
@@ -40,14 +40,14 @@ export default function TestimonialsSection() {
               className="card-hover"
               style={{
                 padding: '28px', borderRadius: '18px',
-                background: 'rgba(30,41,59,0.55)', border: '1px solid rgba(99,102,241,0.12)',
+                background: 'var(--bg-surface)', border: '1px solid var(--border-card)',
               }}
             >
               <div style={{ display: 'flex', gap: '3px', marginBottom: '16px' }}>
                 {[...Array(t.rating)].map((_, j) => <span key={j} style={{ color: '#f59e0b', fontSize: '0.875rem' }}>★</span>)}
-                {[...Array(5 - t.rating)].map((_, j) => <span key={j} style={{ color: '#334155', fontSize: '0.875rem' }}>★</span>)}
+                {[...Array(5 - t.rating)].map((_, j) => <span key={j} style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>★</span>)}
               </div>
-              <p style={{ color: '#94a3b8', fontSize: '0.875rem', lineHeight: 1.75, marginBottom: '20px', fontStyle: 'italic' }}>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.75, marginBottom: '20px', fontStyle: 'italic' }}>
                 "{t.text}"
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -58,8 +58,8 @@ export default function TestimonialsSection() {
                   color: '#fff', fontWeight: 700, fontSize: '0.9rem',
                 }}>{t.name.charAt(0)}</div>
                 <div>
-                  <div style={{ color: '#fff', fontWeight: 600, fontSize: '0.875rem' }}>{t.name}</div>
-                  <div style={{ color: '#475569', fontSize: '0.75rem' }}>{t.role}</div>
+                  <div style={{ color: 'var(--text-heading)', fontWeight: 600, fontSize: '0.875rem' }}>{t.name}</div>
+                  <div style={{ color: 'var(--text-faint)', fontSize: '0.75rem' }}>{t.role}</div>
                 </div>
               </div>
             </motion.div>

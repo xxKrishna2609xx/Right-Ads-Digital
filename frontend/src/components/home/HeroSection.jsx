@@ -116,7 +116,7 @@ export default function HeroSection() {
                 fontWeight: 900,
                 fontSize: 'clamp(2.4rem, 6vw, 4.5rem)',
                 lineHeight: 1.1,
-                color: '#f1f5f9',
+                color: 'var(--text-primary)',
                 marginBottom: '16px',
                 marginTop: '8px',
               }}>
@@ -131,7 +131,7 @@ export default function HeroSection() {
 
               {/* Subtitle */}
               <p style={{
-                color: '#94a3b8', fontSize: '1.1rem', lineHeight: 1.75,
+                color: 'var(--text-secondary)', fontSize: '1.1rem', lineHeight: 1.75,
                 marginBottom: '36px', maxWidth: '560px',
               }}>
                 {slide.subtitle}
@@ -156,7 +156,7 @@ export default function HeroSection() {
                       background: `linear-gradient(135deg, ${slide.accentColor}, #06b6d4)`,
                       WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
                     }}>{s.value}</div>
-                    <div style={{ color: '#64748b', fontSize: '0.85rem', marginTop: '2px' }}>{s.label}</div>
+                    <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '2px' }}>{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -194,11 +194,11 @@ export default function HeroSection() {
               className="glass"
               style={{
                 width: '40px', height: '40px', borderRadius: '10px', border: 'none',
-                color: '#94a3b8', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                transition: 'all 0.2s ease', background: 'rgba(30,41,59,0.5)',
+                color: 'var(--text-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'all 0.2s ease',
               }}
-              onMouseEnter={e => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.background = 'rgba(99,102,241,0.2)' }}
-              onMouseLeave={e => { e.currentTarget.style.color = '#94a3b8'; e.currentTarget.style.background = 'rgba(30,41,59,0.5)' }}
+              onMouseEnter={e => { e.currentTarget.style.color = 'var(--text-primary)'; e.currentTarget.style.background = 'rgba(99,102,241,0.2)' }}
+              onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.background = '' }}
             >
               {icon}
             </button>
