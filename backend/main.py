@@ -10,7 +10,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from config import settings
 from database import is_using_firestore
-from routers import leads, careers, chat
+from routers import leads, careers, chat, admin
+
 
 # ── Logging ──────────────────────────────────────────────
 logging.basicConfig(
@@ -49,6 +50,8 @@ app.add_middleware(
 app.include_router(leads.router)
 app.include_router(careers.router)
 app.include_router(chat.router)
+app.include_router(admin.router)
+
 
 
 # ── Root endpoints ────────────────────────────────────────

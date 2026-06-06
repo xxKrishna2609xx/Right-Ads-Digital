@@ -10,17 +10,21 @@ const openings = [
   { title: 'Digital Marketing Executive', type: 'Full-time', location: 'Noida / Remote', exp: 'Fresher – 2 years', desc: 'Knowledge of social media platforms, content creation, and paid campaigns.', color: '#f59e0b' },
   { title: 'Business Development Executive', type: 'Full-time', location: 'Noida', exp: '1-3 years', desc: 'B2B sales experience, lead generation, and client relationship management.', color: '#10b981' },
   { title: 'Graphic Designer', type: 'Full-time', location: 'Noida', exp: '1-2 years', desc: 'Expertise in Adobe Illustrator, Photoshop, Canva. Creative portfolio required.', color: '#ec4899' },
+  { title: 'Web Developer Intern', type: 'Internship', location: 'Noida / Remote', exp: 'Fresher', desc: 'Work on Frontend (React) and Backend (FastAPI). Knowledge of HTML/CSS, JS, and Git is preferred.', color: '#6366f1' },
+  { title: 'ML Engineer Intern', type: 'Internship', location: 'Noida / Remote', exp: 'Fresher', desc: 'Assist in building and testing machine learning models. Familiarity with Python and ML libraries.', color: '#06b6d4' },
+  { title: 'Data Analyst Intern', type: 'Internship', location: 'Noida / Remote', exp: 'Fresher', desc: 'Gather, clean, and visualize marketing data. Basic knowledge of SQL and Python is a plus.', color: '#f59e0b' },
+  { title: 'Python Developer Intern', type: 'Internship', location: 'Noida', exp: 'Fresher', desc: 'Develop backend APIs, automation scripts, and database integrations using Python.', color: '#10b981' },
 ]
 
 export default function Career() {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', position: '', message: '' })
+  const [form, setForm] = useState({ name: '', email: '', phone: '', position: '', experience: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!form.name || !form.email || !form.phone || !form.position) {
+    if (!form.name || !form.email || !form.phone || !form.position || !form.experience) {
       setError('Please fill in all required fields.')
       return
     }
@@ -35,6 +39,7 @@ export default function Career() {
           email: form.email,
           phone: form.phone,
           position: form.position,
+          experience: form.experience,
           cover_letter: form.message,
         }),
       })
@@ -84,7 +89,7 @@ export default function Career() {
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }} viewport={{ once: true }}
                 className="card-hover"
                 style={{ padding: '24px', borderRadius: '18px', background: 'var(--bg-surface)', border: `1px solid ${job.color}20` }}>
-                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '12px' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyBetween: 'space-between', marginBottom: '12px', justifyContent: 'space-between' }}>
                   <Briefcase size={20} style={{ color: job.color }} />
                   <span style={{ fontSize: '0.72rem', fontWeight: 700, color: job.color, background: `${job.color}15`, padding: '3px 10px', borderRadius: '999px' }}>{job.type}</span>
                 </div>
@@ -121,10 +126,22 @@ export default function Career() {
                     <input id="car-email" className="input-field" placeholder="Email Address *" type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />
                   </div>
                   <input id="car-phone" className="input-field" placeholder="Phone Number *" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} />
-                  <select id="car-position" className="input-field" value={form.position} onChange={e => setForm({ ...form, position: e.target.value })} style={{ cursor: 'pointer' }}>
-                    <option value="">Select Position</option>
-                    {openings.map(j => <option key={j.title} value={j.title}>{j.title}</option>)}
-                  </select>
+                  
+                  {/* Grid for Position and Experience */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                    <select id="car-position" className="input-field" value={form.position} onChange={e => setForm({ ...form, position: e.target.value })} style={{ cursor: 'pointer' }}>
+                      <option value="">Select Position *</option>
+                      {openings.map(j => <option key={j.title} value={j.title}>{j.title}</option>)}
+                    </select>
+                    <input 
+                      id="car-experience" 
+                      className="input-field" 
+                      placeholder="Experience (e.g., Fresher, 1 year) *" 
+                      value={form.experience} 
+                      onChange={e => setForm({ ...form, experience: e.target.value })} 
+                    />
+                  </div>
+
                   <textarea id="car-msg" className="input-field" rows={4} placeholder="Tell us about yourself..." value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} style={{ resize: 'none' }} />
                   {error && <p style={{ color: '#f87171', fontSize: '0.85rem', marginBottom: '4px' }}>{error}</p>}
                   <button type="submit" className="btn-primary" style={{ justifyContent: 'center', width: '100%' }} disabled={loading}>
