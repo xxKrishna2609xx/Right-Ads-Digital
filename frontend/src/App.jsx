@@ -11,6 +11,7 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import Career from './pages/Career'
 import Gallery from './pages/Gallery'
+import BudgetCalculator from './pages/BudgetCalculator'
 import Login from './pages/admin/Login'
 import Dashboard from './pages/admin/Dashboard'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -29,6 +30,7 @@ function AppContent() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/career" element={<Career />} />
         <Route path="/gallery" element={<Gallery />} />
+        <Route path="/calculator" element={<BudgetCalculator />} />
         
         {/* Admin Routes */}
         <Route path="/admin/login" element={<Login />} />

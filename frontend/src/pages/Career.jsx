@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Send, Briefcase, MapPin, Clock, CheckCircle } from 'lucide-react'
+import { Send, Briefcase, MapPin, Clock, CheckCircle, Upload } from 'lucide-react'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
@@ -18,9 +18,30 @@ const openings = [
 
 export default function Career() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', position: '', experience: '', message: '' })
+  const [resumeFile, setResumeFile] = useState(null)
+  const [resumeName, setResumeName] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+      setError('Only PDF resumes are allowed.');
+      return;
+    }
+    
+    if (file.size > 5 * 1024 * 1024) {
+      setError('File size must be less than 5 MB.');
+      return;
+    }
+    
+    setResumeFile(file);
+    setResumeName(file.name);
+    setError(null);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -28,9 +49,30 @@ export default function Career() {
       setError('Please fill in all required fields.')
       return
     }
+    if (!resumeFile) {
+      setError('Please upload your resume (PDF).')
+      return
+    }
     setError(null)
     setLoading(true)
     try {
+      // 1. Upload resume PDF first
+      const uploadData = new FormData()
+      uploadData.append('file', resumeFile)
+
+      const uploadRes = await fetch(`${API_URL}/api/careers/upload-resume`, {
+        method: 'POST',
+        body: uploadData
+      })
+
+      if (!uploadRes.ok) {
+        const errData = await uploadRes.json()
+        throw new Error(errData?.detail || 'Resume upload failed. Please try again.')
+      }
+
+      const { resume_url } = await uploadRes.json()
+
+      // 2. Submit application details with resume_url
       const res = await fetch(`${API_URL}/api/careers`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -41,6 +83,7 @@ export default function Career() {
           position: form.position,
           experience: form.experience,
           cover_letter: form.message,
+          resume_url: resume_url
         }),
       })
       if (!res.ok) {
@@ -143,6 +186,49 @@ export default function Career() {
                   </div>
 
                   <textarea id="car-msg" className="input-field" rows={4} placeholder="Tell us about yourself..." value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} style={{ resize: 'none' }} />
+                  
+                  {/* Resume PDF Upload */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    <label style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>
+                      Upload Resume (PDF format, max 5MB) *
+                    </label>
+                    <div 
+                      onClick={() => document.getElementById('resume-file').click()}
+                      style={{ 
+                        border: '1.5px dashed var(--border-primary)', 
+                        borderRadius: '12px', 
+                        padding: '16px', 
+                        textAlign: 'center', 
+                        cursor: 'pointer',
+                        backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                        transition: 'all 0.2s ease',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '8px'
+                      }}
+                      className="hover:bg-slate-800/10"
+                    >
+                      <input 
+                        type="file" 
+                        id="resume-file" 
+                        accept=".pdf" 
+                        style={{ display: 'none' }} 
+                        onChange={handleFileChange} 
+                      />
+                      <Upload size={20} style={{ color: '#6366f1' }} />
+                      <span style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--text-primary)' }}>
+                        {resumeName ? resumeName : 'Choose PDF File or Drag & Drop'}
+                      </span>
+                      {resumeFile && (
+                        <span style={{ fontSize: '0.75rem', color: '#22c55e', fontWeight: 600 }}>
+                          {(resumeFile.size / (1024 * 1024)).toFixed(2)} MB • Ready to upload
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
                   {error && <p style={{ color: '#f87171', fontSize: '0.85rem', marginBottom: '4px' }}>{error}</p>}
                   <button type="submit" className="btn-primary" style={{ justifyContent: 'center', width: '100%' }} disabled={loading}>
                     {loading ? 'Submitting...' : <><Send size={16} /> Submit Application</>}

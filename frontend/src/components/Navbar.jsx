@@ -170,6 +170,7 @@ export default function Navbar() {
               </div>
 
               <NavLink to="/gallery" label="Gallery" />
+              <NavLink to="/calculator" label="Calculator" />
               <NavLink to="/career" label="Career" />
               <NavLink to="/contact" label="Contact" />
             </div>
@@ -253,6 +254,7 @@ export default function Navbar() {
                 <div style={{ padding: '8px 16px 4px', fontSize: '0.7rem', color: '#6366f1', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Certificates</div>
                 {certificates.map(c => <Link key={c.href} to={c.href} className="mobile-nav-link">{c.label}</Link>)}
                 <Link to="/gallery" className="mobile-nav-link">Gallery</Link>
+                <Link to="/calculator" className="mobile-nav-link">Budget Calculator</Link>
                 <Link to="/career" className="mobile-nav-link">Career</Link>
                 <Link to="/contact" className="mobile-nav-link">Contact</Link>
                 <div style={{ marginTop: '12px', display: 'flex', gap: '10px', alignItems: 'center' }}>

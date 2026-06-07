@@ -14,6 +14,7 @@ class ApplicationCreate(BaseModel):
     position: str                          # Job title they applied for
     experience: Optional[str] = None       # Years / description of experience
     cover_letter: Optional[str] = None     # Why they want to join
+    resume_url: Optional[str] = None       # PDF Resume URL
 
     @field_validator("name", "phone", "position")
     @classmethod
@@ -30,8 +31,9 @@ class ApplicationResponse(BaseModel):
     email: str
     phone: str
     position: str
-    experience: Optional[str]
-    cover_letter: Optional[str]
+    experience: Optional[Optional[str]]
+    cover_letter: Optional[Optional[str]]
+    resume_url: Optional[str] = None
     created_at: datetime
 
 

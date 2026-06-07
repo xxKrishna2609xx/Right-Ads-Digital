@@ -15,7 +15,8 @@ import {
   FileText, 
   TrendingUp,
   RefreshCw,
-  Clock
+  Clock,
+  Calculator
 } from 'lucide-react';
 import AdminThemeToggle from '../../components/AdminThemeToggle';
 
@@ -27,15 +28,17 @@ export default function Dashboard() {
   // Data State
   const [leads, setLeads] = useState([]);
   const [applications, setApplications] = useState([]);
+  const [calcLeads, setCalcLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [actionLoading, setActionLoading] = useState(false);
   
   // UI State
-  const [activeTab, setActiveTab] = useState('leads'); // 'leads' | 'applications'
+  const [activeTab, setActiveTab] = useState('leads'); // 'leads' | 'applications' | 'calculator-leads'
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedService, setSelectedService] = useState('All');
   const [selectedPosition, setSelectedPosition] = useState('All');
+  const [selectedCalcService, setSelectedCalcService] = useState('All');
   const [expandedRows, setExpandedRows] = useState({}); // { id: boolean }
 
   // Fetch all dashboard data
@@ -53,16 +56,17 @@ export default function Dashboard() {
         'Content-Type': 'application/json'
       };
 
-      const [leadsRes, appsRes] = await Promise.all([
+      const [leadsRes, appsRes, calcRes] = await Promise.all([
         fetch(`${API_URL}/api/admin/leads`, { headers }),
-        fetch(`${API_URL}/api/admin/applications`, { headers })
+        fetch(`${API_URL}/api/admin/applications`, { headers }),
+        fetch(`${API_URL}/api/admin/calculator-leads`, { headers })
       ]);
 
-      if (!leadsRes.ok || !appsRes.ok) {
-        if (leadsRes.status === 401 || appsRes.status === 401) {
+      if (!leadsRes.ok || !appsRes.ok || !calcRes.ok) {
+        if (leadsRes.status === 401 || appsRes.status === 401 || calcRes.status === 401) {
           throw new Error("Session expired or unauthorized. Please re-login.");
         }
-        const errorRes = !leadsRes.ok ? leadsRes : appsRes;
+        const errorRes = !leadsRes.ok ? leadsRes : (!appsRes.ok ? appsRes : calcRes);
         try {
           const errorData = await errorRes.json();
           throw new Error(errorData.detail || "Failed to load dashboard data.");
@@ -73,9 +77,11 @@ export default function Dashboard() {
 
       const leadsData = await leadsRes.json();
       const appsData = await appsRes.json();
+      const calcData = await calcRes.json();
 
       setLeads(leadsData.leads || []);
       setApplications(appsData.applications || []);
+      setCalcLeads(calcData.leads || []);
     } catch (err) {
       console.error(err);
       setError(err.message || "Failed to fetch data from backend. Make sure the backend server is running.");
@@ -89,7 +95,7 @@ export default function Dashboard() {
   }, []);
 
   const handleDelete = async (collection, id) => {
-    if (!window.confirm(`Are you sure you want to delete this ${collection === 'leads' ? 'lead' : 'application'}?`)) {
+    if (!window.confirm(`Are you sure you want to delete this ${collection === 'leads' ? 'lead' : collection === 'applications' ? 'application' : 'calculator lead'}?`)) {
       return;
     }
 
@@ -112,8 +118,10 @@ export default function Dashboard() {
 
       if (collection === 'leads') {
         setLeads(leads.filter(item => item.id !== id));
-      } else {
+      } else if (collection === 'applications') {
         setApplications(applications.filter(item => item.id !== id));
+      } else if (collection === 'calculator-leads') {
+        setCalcLeads(calcLeads.filter(item => item.id !== id));
       }
     } catch (err) {
       alert(err.message || "Error deleting item");
@@ -143,6 +151,7 @@ export default function Dashboard() {
 
   const serviceOptions = ['All', ...new Set(leads.map(l => l.service).filter(Boolean))];
   const positionOptions = ['All', ...new Set(applications.map(a => a.position).filter(Boolean))];
+  const calcServiceOptions = ['All', ...new Set(calcLeads.flatMap(l => l.services).filter(Boolean))];
 
   const filteredLeads = leads.filter(l => {
     const matchesSearch = 
@@ -166,6 +175,19 @@ export default function Dashboard() {
     const matchesPosition = selectedPosition === 'All' || a.position === selectedPosition;
     
     return matchesSearch && matchesPosition;
+  });
+
+  const filteredCalcLeads = calcLeads.filter(l => {
+    const matchesSearch = 
+      l.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      l.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      l.phone.includes(searchQuery) ||
+      (l.website && l.website.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (l.services && l.services.some(s => s.toLowerCase().includes(searchQuery.toLowerCase())));
+    
+    const matchesService = selectedCalcService === 'All' || l.services.includes(selectedCalcService);
+    
+    return matchesSearch && matchesService;
   });
 
   const today = new Date();
@@ -254,7 +276,7 @@ export default function Dashboard() {
         )}
 
         {/* ── KPI STATS CARDS ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px', marginBottom: '36px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '36px' }}>
           
           {/* Card 1 */}
           <div className="glass card-hover" style={{ borderRadius: '20px', padding: '24px', position: 'relative', overflow: 'hidden' }}>
@@ -263,7 +285,7 @@ export default function Dashboard() {
                 <p style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>
                   Total Leads
                 </p>
-                <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: '2.5rem', marginTop: '12px', lineHeight: 1 }}>
+                <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: '2.2rem', marginTop: '12px', lineHeight: 1 }}>
                   {loading ? '...' : leads.length}
                 </h3>
               </div>
@@ -283,7 +305,7 @@ export default function Dashboard() {
                 <p style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>
                   Leads Today
                 </p>
-                <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: '2.5rem', marginTop: '12px', lineHeight: 1 }}>
+                <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: '2.2rem', marginTop: '12px', lineHeight: 1 }}>
                   {loading ? '...' : leadsToday}
                 </h3>
               </div>
@@ -296,14 +318,34 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Card 3 */}
+          {/* Card 3 - Quote Leads */}
+          <div className="glass card-hover" style={{ borderRadius: '20px', padding: '24px', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div>
+                <p style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>
+                  Quote Leads
+                </p>
+                <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: '2.2rem', marginTop: '12px', lineHeight: 1 }}>
+                  {loading ? '...' : calcLeads.length}
+                </h3>
+              </div>
+              <div style={{ padding: '12px', borderRadius: '12px', backgroundColor: 'rgba(129, 140, 248, 0.1)', color: '#818cf8' }}>
+                <Calculator size={24} />
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '20px', fontSize: '0.75rem', color: '#818cf8', fontWeight: 600 }}>
+              <TrendingUp size={14} /> Interactive quote inquiries
+            </div>
+          </div>
+
+          {/* Card 4 */}
           <div className="glass card-hover" style={{ borderRadius: '20px', padding: '24px', position: 'relative', overflow: 'hidden' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div>
                 <p style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>
                   Total Applications
                 </p>
-                <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: '2.5rem', marginTop: '12px', lineHeight: 1 }}>
+                <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: '2.2rem', marginTop: '12px', lineHeight: 1 }}>
                   {loading ? '...' : applications.length}
                 </h3>
               </div>
@@ -316,14 +358,14 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Card 4 */}
+          {/* Card 5 */}
           <div className="glass card-hover" style={{ borderRadius: '20px', padding: '24px', position: 'relative', overflow: 'hidden' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div>
                 <p style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>
                   Apps This Week
                 </p>
-                <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: '2.5rem', marginTop: '12px', lineHeight: 1 }}>
+                <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: '2.2rem', marginTop: '12px', lineHeight: 1 }}>
                   {loading ? '...' : applicationsThisWeek}
                 </h3>
               </div>
@@ -373,6 +415,27 @@ export default function Dashboard() {
                 Leads ({leads.length})
               </button>
               <button
+                onClick={() => { setActiveTab('calculator-leads'); setSearchQuery(''); }}
+                style={{ 
+                  padding: '10px 24px', 
+                  borderRadius: '8px', 
+                  fontSize: '0.875rem', 
+                  fontWeight: 600, 
+                  cursor: 'pointer',
+                  border: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  backgroundColor: activeTab === 'calculator-leads' ? '#6366f1' : 'transparent',
+                  color: activeTab === 'calculator-leads' ? '#ffffff' : 'var(--text-primary)',
+                  boxShadow: activeTab === 'calculator-leads' ? '0 4px 12px rgba(99, 102, 241, 0.3)' : 'none',
+                  transition: 'all 0.25s ease'
+                }}
+              >
+                <Calculator size={16} />
+                Quote Leads ({calcLeads.length})
+              </button>
+              <button
                 onClick={() => { setActiveTab('applications'); setSearchQuery(''); }}
                 style={{ 
                   padding: '10px 24px', 
@@ -405,7 +468,7 @@ export default function Dashboard() {
                 </span>
                 <input
                   type="text"
-                  placeholder={`Search by name, email, msg...`}
+                  placeholder={`Search by name, email, details...`}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="input-field"
@@ -424,6 +487,20 @@ export default function Dashboard() {
                     style={{ height: '42px', fontSize: '0.85rem', cursor: 'pointer' }}
                   >
                     {serviceOptions.map(service => (
+                      <option key={service} value={service}>{service}</option>
+                    ))}
+                  </select>
+                </div>
+              ) : activeTab === 'calculator-leads' ? (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '220px' }}>
+                  <Filter size={16} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+                  <select
+                    value={selectedCalcService}
+                    onChange={(e) => setSelectedCalcService(e.target.value)}
+                    className="input-field"
+                    style={{ height: '42px', fontSize: '0.85rem', cursor: 'pointer' }}
+                  >
+                    {calcServiceOptions.map(service => (
                       <option key={service} value={service}>{service}</option>
                     ))}
                   </select>
@@ -588,6 +665,158 @@ export default function Dashboard() {
                 </table>
               </div>
 
+            ) : activeTab === 'calculator-leads' ? (
+              
+              /* Calculator Leads Table View */
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '800px' }}>
+                  <thead>
+                    <tr style={{ backgroundColor: 'rgba(99, 102, 241, 0.05)', borderBottom: '1px solid var(--border-primary)' }}>
+                      <th style={{ padding: '16px 20px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>Date</th>
+                      <th style={{ padding: '16px 20px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>Name</th>
+                      <th style={{ padding: '16px 20px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>Contact Info</th>
+                      <th style={{ padding: '16px 20px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>Selected Services</th>
+                      <th style={{ padding: '16px 20px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>Budget Estimate</th>
+                      <th style={{ padding: '16px 20px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)', textAlign: 'right' }}>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody style={{ display: 'table-row-group' }}>
+                    {filteredCalcLeads.length === 0 ? (
+                      <tr>
+                        <td colSpan="6" style={{ padding: '36px', textAlign: 'center', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                          No calculator leads found matching criteria.
+                        </td>
+                      </tr>
+                    ) : (
+                      filteredCalcLeads.map((lead) => {
+                        const isExpanded = !!expandedRows[lead.id];
+                        return (
+                          <React.Fragment key={lead.id}>
+                            <tr style={{ borderBottom: '1px solid var(--border-subtle)', backgroundColor: 'transparent' }} className="hover:bg-slate-800/10">
+                              <td style={{ padding: '16px 20px', fontSize: '0.8rem', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
+                                {formatDate(lead.created_at)}
+                              </td>
+                              <td style={{ padding: '16px 20px', fontSize: '0.9rem', fontWeight: 600 }}>{lead.name}</td>
+                              <td style={{ padding: '16px 20px', fontSize: '0.8rem' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-primary)' }}>
+                                    <Mail size={12} style={{ color: 'var(--text-muted)' }} /> {lead.email}
+                                  </div>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-primary)' }}>
+                                    <Phone size={12} style={{ color: 'var(--text-muted)' }} /> {lead.phone}
+                                  </div>
+                                </div>
+                              </td>
+                              <td style={{ padding: '16px 20px' }}>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                                  {lead.services.map((srv, idx) => (
+                                    <span key={idx} className="section-badge" style={{ margin: 0, padding: '4px 10px', fontSize: '0.7rem', textTransform: 'none', border: '1px solid rgba(99, 102, 241, 0.2)' }}>
+                                      {srv}
+                                    </span>
+                                  ))}
+                                </div>
+                              </td>
+                              <td style={{ padding: '16px 20px', fontSize: '0.85rem', fontWeight: 700, color: '#818cf8' }}>
+                                ₹{lead.min_budget.toLocaleString('en-IN')} - ₹{lead.max_budget.toLocaleString('en-IN')}
+                              </td>
+                              <td style={{ padding: '16px 20px', textAlign: 'right' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px' }}>
+                                  <button
+                                    onClick={() => toggleRow(lead.id)}
+                                    style={{ 
+                                      background: 'none', 
+                                      border: 'none', 
+                                      cursor: 'pointer', 
+                                      padding: '8px', 
+                                      borderRadius: '8px',
+                                      color: '#818cf8',
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      backgroundColor: 'rgba(99, 102, 241, 0.05)'
+                                    }}
+                                    className="hover:bg-slate-700/20"
+                                    title="View Details"
+                                  >
+                                    {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                                  </button>
+                                  <button
+                                    onClick={() => handleDelete('calculator-leads', lead.id)}
+                                    disabled={actionLoading}
+                                    style={{ 
+                                      background: 'none', 
+                                      border: 'none', 
+                                      cursor: 'pointer', 
+                                      padding: '8px', 
+                                      borderRadius: '8px',
+                                      color: '#f87171',
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      backgroundColor: 'rgba(239, 68, 68, 0.05)',
+                                      opacity: actionLoading ? 0.5 : 1
+                                    }}
+                                    className="hover:bg-red-500/10"
+                                    title="Delete Record"
+                                  >
+                                    <Trash2 size={16} />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                            {isExpanded && (
+                              <tr style={{ backgroundColor: 'rgba(99, 102, 241, 0.02)' }}>
+                                <td colSpan="6" style={{ padding: '24px' }}>
+                                  <div style={{ 
+                                    borderRadius: '12px', 
+                                    border: '1px solid var(--border-subtle)', 
+                                    padding: '20px', 
+                                    backgroundColor: 'rgba(0,0,0,0.1)' 
+                                  }}>
+                                    <h4 style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: '12px', letterSpacing: '0.05em' }}>
+                                      Detailed Service Configuration
+                                    </h4>
+                                    
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '16px' }}>
+                                      {Object.entries(lead.details || {}).map(([key, val]) => {
+                                        const serviceIdToName = {
+                                          seo: 'SEO Optimization',
+                                          web: 'Web Development',
+                                          smm: 'Social Media Marketing',
+                                          ppc: 'Paid Ads Management',
+                                          design: 'Graphic Design'
+                                        };
+                                        return (
+                                          <div key={key} style={{ padding: '12px', borderRadius: '8px', backgroundColor: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-subtle)' }}>
+                                            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'block', fontWeight: 600 }}>
+                                              {serviceIdToName[key] || key}
+                                            </span>
+                                            <span style={{ fontSize: '0.9rem', color: 'var(--text-primary)', fontWeight: 700, marginTop: '4px', display: 'block' }}>
+                                              {val}
+                                            </span>
+                                          </div>
+                                        );
+                                      })}
+                                    </div>
+
+                                    {lead.website && (
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem' }}>
+                                        <span style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>Company Website:</span>
+                                        <a href={lead.website.startsWith('http') ? lead.website : `https://${lead.website}`} target="_blank" rel="noopener noreferrer" style={{ color: '#818cf8', textDecoration: 'underline' }}>
+                                          {lead.website}
+                                        </a>
+                                      </div>
+                                    )}
+                                  </div>
+                                </td>
+                              </tr>
+                            )}
+                          </React.Fragment>
+                        );
+                      })
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
             ) : (
 
               /* Applications Table View */
@@ -600,13 +829,14 @@ export default function Dashboard() {
                       <th style={{ padding: '16px 20px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>Contact Info</th>
                       <th style={{ padding: '16px 20px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>Position Applied</th>
                       <th style={{ padding: '16px 20px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>Experience</th>
+                      <th style={{ padding: '16px 20px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>Resume</th>
                       <th style={{ padding: '16px 20px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)', textAlign: 'right' }}>Actions</th>
                     </tr>
                   </thead>
                   <tbody style={{ display: 'table-row-group' }}>
                     {filteredApplications.length === 0 ? (
                       <tr>
-                        <td colSpan="6" style={{ padding: '36px', textAlign: 'center', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                        <td colSpan="7" style={{ padding: '36px', textAlign: 'center', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
                           No applications found matching criteria.
                         </td>
                       </tr>
@@ -645,6 +875,27 @@ export default function Dashboard() {
                               </td>
                               <td style={{ padding: '16px 20px', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                                 {app.experience || 'Not specified'}
+                              </td>
+                              <td style={{ padding: '16px 20px', fontSize: '0.85rem' }}>
+                                {app.resume_url ? (
+                                  <a 
+                                    href={app.resume_url} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    style={{ 
+                                      color: '#6366f1', 
+                                      fontWeight: 600, 
+                                      textDecoration: 'underline',
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      gap: '4px'
+                                    }}
+                                  >
+                                    <FileText size={14} /> View PDF
+                                  </a>
+                                ) : (
+                                  <span style={{ color: 'var(--text-muted)' }}>No Resume</span>
+                                )}
                               </td>
                               <td style={{ padding: '16px 20px', textAlign: 'right' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px' }}>
@@ -691,7 +942,7 @@ export default function Dashboard() {
                             </tr>
                             {isExpanded && (
                               <tr style={{ backgroundColor: 'rgba(6, 182, 212, 0.02)' }}>
-                                <td colSpan="6" style={{ padding: '24px' }}>
+                                <td colSpan="7" style={{ padding: '24px' }}>
                                   <div style={{ 
                                     borderRadius: '12px', 
                                     border: '1px solid var(--border-subtle)', 

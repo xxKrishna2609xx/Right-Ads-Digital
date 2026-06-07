@@ -4,13 +4,15 @@ main.py — FastAPI application entry-point for Right Ads Digital.
 Startup:    uvicorn main:app --reload --port 8000
 API Docs:   http://localhost:8000/docs
 """
+import os
 import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from config import settings
 from database import is_using_firestore
-from routers import leads, careers, chat, admin
+from routers import leads, careers, chat, admin, calculator_leads
 
 
 # ── Logging ──────────────────────────────────────────────
@@ -51,6 +53,14 @@ app.include_router(leads.router)
 app.include_router(careers.router)
 app.include_router(chat.router)
 app.include_router(admin.router)
+app.include_router(calculator_leads.router)
+
+
+# ── Static Files Fallback ──────────────────────────────────
+# Serve static files from backend/uploads directory for local resume storage fallback
+uploads_dir = os.path.join(os.path.dirname(__file__), "uploads")
+os.makedirs(uploads_dir, exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
 
 
 

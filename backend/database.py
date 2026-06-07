@@ -51,11 +51,29 @@ def _init_firebase() -> None:
 
         if not firebase_admin._apps:
             cred = credentials.Certificate(creds_path)
-            firebase_admin.initialize_app(cred)
+            
+            # Read project ID dynamically from JSON to configure Firebase Storage Bucket
+            import json
+            bucket_name = None
+            try:
+                with open(creds_path, 'r') as f:
+                    creds_data = json.load(f)
+                project_id = creds_data.get("project_id")
+                if project_id:
+                    bucket_name = f"{project_id}.firebasestorage.app"
+            except Exception as e:
+                logger.error(f"Failed to read project_id from credentials JSON: {e}")
+
+            app_options = {}
+            if bucket_name:
+                app_options["storageBucket"] = bucket_name
+                logger.info(f"Configuring Firebase Storage bucket: {bucket_name}")
+
+            firebase_admin.initialize_app(cred, app_options)
 
         _firestore_client = firestore.client()
         _use_firestore = True
-        logger.info("✅  Firebase Firestore initialised successfully.")
+        logger.info("✅  Firebase Firestore and Storage initialised successfully.")
 
     except Exception as exc:
         logger.error(f"Firebase init failed: {exc} → falling back to in-memory store.")
