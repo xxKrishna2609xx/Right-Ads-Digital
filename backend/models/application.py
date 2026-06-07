@@ -15,6 +15,7 @@ class ApplicationCreate(BaseModel):
     experience: Optional[str] = None       # Years / description of experience
     cover_letter: Optional[str] = None     # Why they want to join
     resume_url: Optional[str] = None       # PDF Resume URL
+    resume_analysis: Optional[str] = None  # Gemini suitability analysis
 
     @field_validator("name", "phone", "position")
     @classmethod
@@ -34,6 +35,7 @@ class ApplicationResponse(BaseModel):
     experience: Optional[Optional[str]]
     cover_letter: Optional[Optional[str]]
     resume_url: Optional[str] = None
+    resume_analysis: Optional[str] = None
     created_at: datetime
 
 

@@ -16,7 +16,8 @@ import {
   TrendingUp,
   RefreshCw,
   Clock,
-  Calculator
+  Calculator,
+  Sparkles
 } from 'lucide-react';
 import AdminThemeToggle from '../../components/AdminThemeToggle';
 
@@ -943,21 +944,45 @@ export default function Dashboard() {
                             {isExpanded && (
                               <tr style={{ backgroundColor: 'rgba(6, 182, 212, 0.02)' }}>
                                 <td colSpan="7" style={{ padding: '24px' }}>
-                                  <div style={{ 
-                                    borderRadius: '12px', 
-                                    border: '1px solid var(--border-subtle)', 
-                                    padding: '20px', 
-                                    backgroundColor: 'rgba(0,0,0,0.1)' 
-                                  }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-secondary)', marginBottom: '10px' }}>
-                                      <FileText size={16} />
-                                      <h4 style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                                        Cover Letter / Applicant Note
-                                      </h4>
+                                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                    {/* Cover Letter */}
+                                    <div style={{ 
+                                      borderRadius: '12px', 
+                                      border: '1px solid var(--border-subtle)', 
+                                      padding: '20px', 
+                                      backgroundColor: 'rgba(0,0,0,0.1)' 
+                                    }}>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-secondary)', marginBottom: '10px' }}>
+                                        <FileText size={16} />
+                                        <h4 style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                                          Cover Letter / Applicant Note
+                                        </h4>
+                                      </div>
+                                      <p style={{ fontSize: '0.9rem', color: 'var(--text-primary)', whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>
+                                        {app.cover_letter || 'No cover letter was attached.'}
+                                      </p>
                                     </div>
-                                    <p style={{ fontSize: '0.9rem', color: 'var(--text-primary)', whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>
-                                      {app.cover_letter || 'No cover letter was attached.'}
-                                    </p>
+
+                                    {/* Gemini Resume Analysis */}
+                                    {app.resume_analysis && (
+                                      <div style={{ 
+                                        borderRadius: '12px', 
+                                        border: '1px solid rgba(99, 102, 241, 0.2)', 
+                                        padding: '20px', 
+                                        backgroundColor: 'rgba(99, 102, 241, 0.04)',
+                                        boxShadow: 'inset 0 0 12px rgba(99, 102, 241, 0.05)'
+                                      }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#818cf8', marginBottom: '10px' }}>
+                                          <Sparkles size={16} />
+                                          <h4 style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                                            Resume Suitability Analysis (Powered by Gemini)
+                                          </h4>
+                                        </div>
+                                        <p style={{ fontSize: '0.9rem', color: 'var(--text-primary)', whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>
+                                          {app.resume_analysis}
+                                        </p>
+                                      </div>
+                                    )}
                                   </div>
                                 </td>
                               </tr>

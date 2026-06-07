@@ -79,7 +79,9 @@ credentials.json
 secrets.py
 config.local.py
 
+# ── LOCAL UPLOADS ──
+/backend/uploads/
 
+# ── DOCUMENTATION ──
 Right_Ads_Project_Plan.txt
-
-*.pdf      
+*.pdf

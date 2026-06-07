@@ -60,7 +60,7 @@ export default function Career() {
       const uploadData = new FormData()
       uploadData.append('file', resumeFile)
 
-      const uploadRes = await fetch(`${API_URL}/api/careers/upload-resume`, {
+      const uploadRes = await fetch(`${API_URL}/api/careers/upload-resume?position=${encodeURIComponent(form.position)}`, {
         method: 'POST',
         body: uploadData
       })
@@ -70,9 +70,9 @@ export default function Career() {
         throw new Error(errData?.detail || 'Resume upload failed. Please try again.')
       }
 
-      const { resume_url } = await uploadRes.json()
+      const { resume_url, resume_analysis } = await uploadRes.json()
 
-      // 2. Submit application details with resume_url
+      // 2. Submit application details with resume_url and resume_analysis
       const res = await fetch(`${API_URL}/api/careers`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -83,7 +83,8 @@ export default function Career() {
           position: form.position,
           experience: form.experience,
           cover_letter: form.message,
-          resume_url: resume_url
+          resume_url: resume_url,
+          resume_analysis: resume_analysis
         }),
       })
       if (!res.ok) {
