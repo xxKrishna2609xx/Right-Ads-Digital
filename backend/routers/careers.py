@@ -7,7 +7,7 @@ GET  /api/careers  → List all applications (admin, requires ?api_key=)
 import os
 import uuid
 import shutil
-from fastapi import APIRouter, HTTPException, Query, status, UploadFile, File
+from fastapi import APIRouter, HTTPException, Query, status, UploadFile, File, Request
 
 from config import settings
 from database import save_document, get_all_documents
@@ -98,6 +98,7 @@ async def analyze_resume_with_gemini(pdf_bytes: bytes, position: str = None) -> 
     summary="Upload candidate resume PDF",
 )
 async def upload_resume(
+    request: Request,
     file: UploadFile = File(...),
     position: str = Query(None, description="Position the candidate is applying for")
 ):
@@ -152,7 +153,8 @@ async def upload_resume(
     with open(local_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
         
-    local_url = f"http://localhost:8000/uploads/{unique_filename}"
+    base_url = str(request.base_url).rstrip("/")
+    local_url = f"{base_url}/uploads/{unique_filename}"
     return {"resume_url": local_url, "resume_analysis": resume_analysis}
 
 

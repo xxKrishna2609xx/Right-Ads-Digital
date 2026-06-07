@@ -35,34 +35,56 @@ _use_firestore = False
 def _init_firebase() -> None:
     global _firestore_client, _use_firestore
 
+    creds_json = settings.FIREBASE_CREDENTIALS_JSON
     creds_path = settings.FIREBASE_CREDENTIALS_PATH
-    if not creds_path:
-        logger.info("FIREBASE_CREDENTIALS_PATH not set → using in-memory store.")
+
+    if not creds_json and not creds_path:
+        logger.info("Neither FIREBASE_CREDENTIALS_JSON nor FIREBASE_CREDENTIALS_PATH set → using in-memory store.")
         return
 
     try:
-        import os
-        if not os.path.exists(creds_path):
-            logger.warning(f"Firebase credentials file not found at '{creds_path}' → using in-memory store.")
-            return
-
         import firebase_admin
         from firebase_admin import credentials, firestore
+        import json
 
-        if not firebase_admin._apps:
+        cred = None
+        creds_data = None
+
+        # 1. Try initializing from JSON environment variable
+        if creds_json:
+            try:
+                creds_data = json.loads(creds_json)
+                cred = credentials.Certificate(creds_data)
+                logger.info("Attempting to use Firebase credentials from FIREBASE_CREDENTIALS_JSON env var.")
+            except Exception as e:
+                logger.error(f"Failed to parse FIREBASE_CREDENTIALS_JSON env var: {e}")
+
+        # 2. Fall back to loading from file path
+        if not cred and creds_path:
+            import os
+            if not os.path.exists(creds_path):
+                logger.warning(f"Firebase credentials file not found at '{creds_path}' → using in-memory store.")
+                return
+
             cred = credentials.Certificate(creds_path)
-            
-            # Read project ID dynamically from JSON to configure Firebase Storage Bucket
-            import json
-            bucket_name = None
             try:
                 with open(creds_path, 'r') as f:
                     creds_data = json.load(f)
+                logger.info(f"Using Firebase credentials from file path: {creds_path}")
+            except Exception as e:
+                logger.error(f"Failed to read credentials JSON from file: {e}")
+
+        if not cred:
+            logger.warning("No valid Firebase credentials available → using in-memory store.")
+            return
+
+        if not firebase_admin._apps:
+            # Read project ID dynamically from JSON to configure Firebase Storage Bucket
+            bucket_name = None
+            if creds_data:
                 project_id = creds_data.get("project_id")
                 if project_id:
                     bucket_name = f"{project_id}.firebasestorage.app"
-            except Exception as e:
-                logger.error(f"Failed to read project_id from credentials JSON: {e}")
 
             app_options = {}
             if bucket_name:

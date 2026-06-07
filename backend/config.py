@@ -24,6 +24,8 @@ class Settings(BaseSettings):
     # Set this to the path of your serviceAccountKey.json to enable Firestore.
     # Leave empty to use the in-memory fallback (great for development/demo).
     FIREBASE_CREDENTIALS_PATH: str = ""
+    # Alternative: Set this to the stringified JSON credentials directly
+    FIREBASE_CREDENTIALS_JSON: str = ""
 
     # ── Gemini AI ──
     # Google Gemini API key for the AI chatbot endpoint.

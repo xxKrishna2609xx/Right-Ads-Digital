@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: right-ads-backend
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DEBUG
+        value: "false"
+      - key: ALLOWED_ORIGINS
+        value: "http://localhost:5173" # Change to production Vercel frontend URL in Render dashboard
+      - key: ADMIN_API_KEY
+        generateValue: true # Generates a secure random API key automatically
+      - key: GEMINI_API_KEY
+        sync: false # Prompt user for input on Render
+      - key: FIREBASE_CREDENTIALS_JSON
+        sync: false # Optional: Paste your firebase credentials JSON string here
