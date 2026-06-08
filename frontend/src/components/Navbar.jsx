@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, ChevronDown, Sun, Moon, Lock, Wifi, WifiOff } from 'lucide-react'
+import { Menu, X, ChevronDown, Sun, Moon, Lock } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
 
@@ -24,8 +24,6 @@ const certificates = [
   { label: 'MSME / Udyam Registration', href: '/services/msme' },
 ]
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
-
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -33,29 +31,6 @@ export default function Navbar() {
   const [certOpen, setCertOpen] = useState(false)
   const location = useLocation()
   const { theme, toggleTheme } = useTheme()
-  const [backendStatus, setBackendStatus] = useState('checking')
-
-  useEffect(() => {
-    const checkStatus = async () => {
-      try {
-        const res = await fetch(`${API_URL}/health`)
-        if (res.ok) {
-          const data = await res.json()
-          if (data.status === 'healthy') {
-            setBackendStatus('online')
-            return
-          }
-        }
-        setBackendStatus('offline')
-      } catch (err) {
-        setBackendStatus('offline')
-      }
-    }
-
-    checkStatus()
-    const interval = setInterval(checkStatus, 30000)
-    return () => clearInterval(interval)
-  }, [])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -203,50 +178,6 @@ export default function Navbar() {
             {/* CTA + Theme Toggle + Hamburger */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
 
-              {/* Backend Status Indicator */}
-              <div
-                title={`API Server: ${backendStatus === 'online' ? 'Online' : backendStatus === 'offline' ? 'Offline' : 'Checking Connection...'}`}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '6px 16px',
-                  borderRadius: '999px',
-                  fontSize: '0.75rem',
-                  fontWeight: 700,
-                  fontFamily: 'Outfit, sans-serif',
-                  border: backendStatus === 'online' 
-                    ? '1.5px solid rgba(16, 185, 129, 0.4)' 
-                    : backendStatus === 'offline' 
-                      ? '1.5px solid rgba(239, 68, 68, 0.4)' 
-                      : '1.5px solid rgba(245, 158, 11, 0.4)',
-                  background: backendStatus === 'online'
-                    ? 'rgba(16, 185, 129, 0.04)'
-                    : backendStatus === 'offline'
-                      ? 'rgba(239, 68, 68, 0.04)'
-                      : 'rgba(245, 158, 11, 0.04)',
-                  color: backendStatus === 'online' 
-                    ? '#10b981' 
-                    : backendStatus === 'offline' 
-                      ? '#ef4444' 
-                      : '#f59e0b',
-                  letterSpacing: '0.01em',
-                  whiteSpace: 'nowrap',
-                  transition: 'all 0.3s ease',
-                }}
-              >
-                {backendStatus === 'online' ? (
-                  <Wifi size={14} strokeWidth={2.5} />
-                ) : backendStatus === 'offline' ? (
-                  <WifiOff size={14} strokeWidth={2.5} />
-                ) : (
-                  <Wifi size={14} className="animate-pulse" strokeWidth={2.5} style={{ opacity: 0.6 }} />
-                )}
-                <span>
-                  {backendStatus === 'online' ? 'Connected' : backendStatus === 'offline' ? 'Disconnected' : 'Connecting'}
-                </span>
-              </div>
-
               {/* Theme Toggle Switch */}
               <button
                 onClick={toggleTheme}
@@ -360,58 +291,6 @@ export default function Navbar() {
                 <Link to="/admin/login" className="mobile-nav-link" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <Lock size={14} /> Admin Panel
                 </Link>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '10px 16px',
-                  marginTop: '10px',
-                  borderTop: '1px solid var(--border-faint)',
-                  borderBottom: '1px solid var(--border-faint)',
-                  fontSize: '0.8rem',
-                  color: 'var(--text-secondary)'
-                }}>
-                  <span>API Connection</span>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      padding: '4px 12px',
-                      borderRadius: '999px',
-                      fontSize: '0.7rem',
-                      fontWeight: 700,
-                      fontFamily: 'Outfit, sans-serif',
-                      border: backendStatus === 'online' 
-                        ? '1.5px solid rgba(16, 185, 129, 0.4)' 
-                        : backendStatus === 'offline' 
-                          ? '1.5px solid rgba(239, 68, 68, 0.4)' 
-                          : '1.5px solid rgba(245, 158, 11, 0.4)',
-                      background: backendStatus === 'online'
-                        ? 'rgba(16, 185, 129, 0.04)'
-                        : backendStatus === 'offline'
-                          ? 'rgba(239, 68, 68, 0.04)'
-                          : 'rgba(245, 158, 11, 0.04)',
-                      color: backendStatus === 'online' 
-                        ? '#10b981' 
-                        : backendStatus === 'offline' 
-                          ? '#ef4444' 
-                          : '#f59e0b',
-                      transition: 'all 0.3s ease',
-                    }}
-                  >
-                    {backendStatus === 'online' ? (
-                      <Wifi size={13} strokeWidth={2.5} />
-                    ) : backendStatus === 'offline' ? (
-                      <WifiOff size={13} strokeWidth={2.5} />
-                    ) : (
-                      <Wifi size={13} strokeWidth={2.5} style={{ opacity: 0.6 }} />
-                    )}
-                    <span>
-                      {backendStatus === 'online' ? 'Connected' : backendStatus === 'offline' ? 'Disconnected' : 'Connecting'}
-                    </span>
-                  </div>
-                </div>
                 <div style={{ marginTop: '12px', display: 'flex', gap: '10px', alignItems: 'center' }}>
                   <a href="tel:+918377072990" className="btn-primary" style={{ flex: 1, justifyContent: 'center' }}>📞 +91-8377072990</a>
                   {/* Mobile theme toggle */}
