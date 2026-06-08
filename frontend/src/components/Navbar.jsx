@@ -37,12 +37,8 @@ export default function Navbar() {
 
   useEffect(() => {
     const checkStatus = async () => {
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 2500) // 2.5 second timeout
-
       try {
-        const res = await fetch(`${API_URL}/health`, { signal: controller.signal })
-        clearTimeout(timeoutId)
+        const res = await fetch(`${API_URL}/health`)
         if (res.ok) {
           const data = await res.json()
           if (data.status === 'healthy') {
@@ -52,13 +48,12 @@ export default function Navbar() {
         }
         setBackendStatus('offline')
       } catch (err) {
-        clearTimeout(timeoutId)
         setBackendStatus('offline')
       }
     }
 
     checkStatus()
-    const interval = setInterval(checkStatus, 10000) // Poll every 10 seconds for fast updates
+    const interval = setInterval(checkStatus, 30000)
     return () => clearInterval(interval)
   }, [])
 
