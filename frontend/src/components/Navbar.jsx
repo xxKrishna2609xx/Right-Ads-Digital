@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, ChevronDown, Sun, Moon, Lock } from 'lucide-react'
+import { Menu, X, ChevronDown, Sun, Moon, Lock, Wifi, WifiOff } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 const services = [
   { label: 'Web Design Services', href: '/services/web-design' },
@@ -32,10 +34,39 @@ export default function Navbar() {
   const location = useLocation()
   const { theme, toggleTheme } = useTheme()
 
+  const [dbStatus, setDbStatus] = useState('checking') // 'checking' | 'connected' | 'disconnected'
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    let active = true
+    const checkConnection = async () => {
+      try {
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 5000)
+        const res = await fetch(`${API_URL}/health`, { signal: controller.signal })
+        clearTimeout(timeoutId)
+        if (res.ok && active) {
+          setDbStatus('connected')
+        } else if (active) {
+          setDbStatus('disconnected')
+        }
+      } catch (err) {
+        if (active) {
+          setDbStatus('disconnected')
+        }
+      }
+    }
+    checkConnection()
+    const interval = setInterval(checkConnection, 30000)
+    return () => {
+      active = false
+      clearInterval(interval)
+    }
   }, [])
 
   useEffect(() => { setMobileOpen(false) }, [location])
@@ -178,6 +209,56 @@ export default function Navbar() {
             {/* CTA + Theme Toggle + Hamburger */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
 
+              {/* Connection Status Tag */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '5px 12px',
+                  borderRadius: '9999px',
+                  border: dbStatus === 'connected'
+                    ? '1.5px solid #10b981'
+                    : dbStatus === 'disconnected'
+                    ? '1.5px solid #ef4444'
+                    : '1.5px solid var(--text-muted)',
+                  color: dbStatus === 'connected'
+                    ? '#10b981'
+                    : dbStatus === 'disconnected'
+                    ? '#ef4444'
+                    : 'var(--text-muted)',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  background: 'transparent',
+                  userSelect: 'none',
+                }}
+                className="desktop-status-tag"
+                title={
+                  dbStatus === 'connected'
+                    ? 'Connected to Right Ads Backend API'
+                    : dbStatus === 'disconnected'
+                    ? 'Disconnected from Backend API'
+                    : 'Checking backend connection...'
+                }
+              >
+                {dbStatus === 'connected' ? (
+                  <>
+                    <Wifi size={13} style={{ strokeWidth: 2.5 }} />
+                    <span>Connected</span>
+                  </>
+                ) : dbStatus === 'disconnected' ? (
+                  <>
+                    <WifiOff size={13} style={{ strokeWidth: 2.5 }} />
+                    <span>Disconnected</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="animate-pulse" style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--text-muted)', display: 'inline-block' }} />
+                    <span>Connecting...</span>
+                  </>
+                )}
+              </div>
+
               {/* Theme Toggle Switch */}
               <button
                 onClick={toggleTheme}
@@ -291,6 +372,39 @@ export default function Navbar() {
                 <Link to="/admin/login" className="mobile-nav-link" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <Lock size={14} /> Admin Panel
                 </Link>
+
+                {/* Mobile connection status */}
+                <div style={{ padding: '8px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--border-subtle)', marginTop: '8px' }}>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 500 }}>System Status</span>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '3px 10px',
+                      borderRadius: '9999px',
+                      border: dbStatus === 'connected' ? '1px solid #10b981' : dbStatus === 'disconnected' ? '1px solid #ef4444' : '1px solid var(--text-muted)',
+                      color: dbStatus === 'connected' ? '#10b981' : dbStatus === 'disconnected' ? '#ef4444' : 'var(--text-muted)',
+                      fontSize: '0.7rem',
+                      fontWeight: 600,
+                    }}
+                  >
+                    {dbStatus === 'connected' ? (
+                      <>
+                        <Wifi size={11} />
+                        <span>Connected</span>
+                      </>
+                    ) : dbStatus === 'disconnected' ? (
+                      <>
+                        <WifiOff size={11} />
+                        <span>Disconnected</span>
+                      </>
+                    ) : (
+                      <span>Checking...</span>
+                    )}
+                  </div>
+                </div>
+
                 <div style={{ marginTop: '12px', display: 'flex', gap: '10px', alignItems: 'center' }}>
                   <a href="tel:+918377072990" className="btn-primary" style={{ flex: 1, justifyContent: 'center' }}>📞 +91-8377072990</a>
                   {/* Mobile theme toggle */}
@@ -319,6 +433,7 @@ export default function Navbar() {
         @media (max-width: 1024px) {
           .desktop-nav { display: none !important; }
           .hamburger-btn { display: flex !important; }
+          .desktop-status-tag { display: none !important; }
         }
         @media (min-width: 1025px) {
           .hamburger-btn { display: none !important; }
