@@ -50,6 +50,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+# ── Security Headers Middleware ───────────────────────────
+@app.middleware("http")
+async def add_security_headers(request, call_next):
+    response = await call_next(request)
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
+    return response
+
+
 # ── Routers ───────────────────────────────────────────────
 app.include_router(leads.router)
 app.include_router(careers.router)
