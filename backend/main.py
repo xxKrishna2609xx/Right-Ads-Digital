@@ -34,8 +34,8 @@ app = FastAPI(
     version="1.0.0",
     contact={
         "name": "Right Ads Digital",
-        "url": "https://rightads.in",
-        "email": "info@rightads.in",
+        "url": settings.CONTACT_URL,
+        "email": settings.CONTACT_EMAIL,
     },
 )
 

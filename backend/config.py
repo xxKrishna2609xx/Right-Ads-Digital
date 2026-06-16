@@ -31,6 +31,20 @@ class Settings(BaseSettings):
     # Google Gemini API key for the AI chatbot endpoint.
     GEMINI_API_KEY: str = ""
 
+    # ── Contact details ──
+    CONTACT_PHONE: str = "+91-8377072990"
+    CONTACT_EMAIL: str = "info@rightads.in"
+    CONTACT_HOURS: str = "Mon – Sun, 8 AM – 8 PM"
+    CONTACT_URL: str = "https://rightads.in"
+    OFFICES_LIST: list[dict[str, str]] = [
+        {"city": "Noida HQ", "address": "A-71, 3rd Floor, Sector 15, Noida, UP 201301"},
+        {"city": "Noida Branch", "address": "B-135, 4th Floor, Sector 2, Noida, UP 201301"},
+        {"city": "Faridabad (Regd.)", "address": "1718, N.E Part-2, Faridabad 121005"},
+        {"city": "Mathura", "address": "6/3A, Krishna Nagar, Mathura 281001"},
+        {"city": "Kota", "address": "80 Feet Link Road, Kota, Rajasthan 324001"},
+        {"city": "Dehradun", "address": "Subhash Nagar, Dehradun"},
+    ]
+
     @property
     def allowed_origins_list(self) -> list[str]:
         return [o.strip() for o in self.ALLOWED_ORIGINS.split(",") if o.strip()]

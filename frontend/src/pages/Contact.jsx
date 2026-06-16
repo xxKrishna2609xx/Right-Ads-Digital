@@ -1,17 +1,11 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Send, Phone, Mail, MapPin, CheckCircle, Clock } from 'lucide-react'
+import { CONTACT_INFO } from '../config/contact'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
-const branches = [
-  { city: 'Noida Office (HQ)', address: 'A-71, 3rd Floor, Sector 15, Noida, UP 201301', phone: '+91-8377072990' },
-  { city: 'Noida Branch', address: 'B-135, 4th Floor, Sector 2, Noida, UP 201301', phone: '+91-8377072990' },
-  { city: 'Faridabad (Regd. Office)', address: '1718, N.E Part-2, Faridabad, 121005', phone: '+91-8377072990' },
-  { city: 'Mathura Branch', address: '6/3A, Krishna Nagar, Mathura 281001', phone: '+91-8377072990' },
-  { city: 'Kota Branch', address: '80 Feet Link Road, Kota, Rajasthan 324001', phone: '+91-8377072990' },
-  { city: 'Dehradun Branch', address: 'Subhash Nagar, Dehradun', phone: '+91-8377072990' },
-]
+const branches = CONTACT_INFO.branches
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
@@ -81,10 +75,10 @@ export default function Contact() {
               </h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '32px' }}>
                 {[
-                  { icon: Phone, label: 'Phone (Admin & Sales)', value: '+91-8377072990', href: 'tel:+918377072990', color: '#6366f1' },
-                  { icon: Mail, label: 'Email', value: 'info@rightads.in', href: 'mailto:info@rightads.in', color: '#06b6d4' },
-                  { icon: Clock, label: 'Working Hours', value: 'Mon – Sun: 8:00 AM – 8:00 PM', href: '#', color: '#f59e0b' },
-                  { icon: MapPin, label: 'Noida HQ', value: 'A-71, 3rd Floor, Sector 15, Noida, UP 201301', href: '#', color: '#10b981' },
+                  { icon: Phone, label: 'Phone (Admin & Sales)', value: CONTACT_INFO.phone.display, href: `tel:${CONTACT_INFO.phone.raw}`, color: '#6366f1' },
+                  { icon: Mail, label: 'Email', value: CONTACT_INFO.email, href: `mailto:${CONTACT_INFO.email}`, color: '#06b6d4' },
+                  { icon: Clock, label: 'Working Hours', value: CONTACT_INFO.hours, href: '#', color: '#f59e0b' },
+                  { icon: MapPin, label: 'Noida HQ', value: CONTACT_INFO.branches[0].address, href: '#', color: '#10b981' },
                 ].map(({ icon: Icon, label, value, href, color }) => (
                   <a key={label} href={href} className="card-hover" style={{
                     display: 'flex', alignItems: 'flex-start', gap: '14px',

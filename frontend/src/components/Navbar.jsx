@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { Menu, X, ChevronDown, Sun, Moon, Lock, Wifi, WifiOff } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
+import { CONTACT_INFO } from '../config/contact'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
@@ -90,15 +91,15 @@ export default function Navbar() {
             color: 'var(--top-bar-text)',
           }}>
             <div style={{ display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
-              <a href="tel:+918377072990" style={{ color: 'var(--text-muted)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '5px' }}
+              <a href={`tel:${CONTACT_INFO.phone.raw}`} style={{ color: 'var(--text-muted)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '5px' }}
                 onMouseEnter={e => e.currentTarget.style.color = '#818cf8'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>
-                📞 +91-8377072990
+                📞 {CONTACT_INFO.phone.display}
               </a>
-              <a href="mailto:info@rightads.in" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}
+              <a href={`mailto:${CONTACT_INFO.email}`} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}
                 onMouseEnter={e => e.currentTarget.style.color = '#818cf8'} onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>
-                ✉ info@rightads.in
+                ✉ {CONTACT_INFO.email}
               </a>
-              <span style={{ color: 'var(--text-muted)' }}>🕐 Mon – Sun (8AM – 8PM)</span>
+              <span style={{ color: 'var(--text-muted)' }}>{CONTACT_INFO.timingDisplay}</span>
             </div>
             <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
               <a href="https://www.facebook.com/rightads" target="_blank" rel="noreferrer"
@@ -327,7 +328,7 @@ export default function Navbar() {
                 <Lock size={15} />
               </Link>
 
-              <a href="tel:+918377072990" className="btn-primary" style={{ padding: '10px 20px', fontSize: '0.85rem' }}>
+              <a href={`tel:${CONTACT_INFO.phone.raw}`} className="btn-primary" style={{ padding: '10px 20px', fontSize: '0.85rem' }}>
                 📞 Call Us
               </a>
               <button
@@ -406,7 +407,7 @@ export default function Navbar() {
                 </div>
 
                 <div style={{ marginTop: '12px', display: 'flex', gap: '10px', alignItems: 'center' }}>
-                  <a href="tel:+918377072990" className="btn-primary" style={{ flex: 1, justifyContent: 'center' }}>📞 +91-8377072990</a>
+                  <a href={`tel:${CONTACT_INFO.phone.raw}`} className="btn-primary" style={{ flex: 1, justifyContent: 'center' }}>📞 {CONTACT_INFO.phone.display}</a>
                   {/* Mobile theme toggle */}
                   <button
                     onClick={toggleTheme}

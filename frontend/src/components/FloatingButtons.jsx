@@ -1,12 +1,13 @@
 import { Phone, MessageCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { CONTACT_INFO } from '../config/contact'
 
 export default function FloatingButtons() {
   return (
     <>
       {/* WhatsApp */}
       <motion.a
-        href="https://api.whatsapp.com/send?l=en&phone=+918377072990&text=Welcome%20To%20Right%20Ads%20Digital"
+        href={CONTACT_INFO.whatsappLink}
         target="_blank"
         rel="noreferrer"
         className="floating-btn"
@@ -22,7 +23,7 @@ export default function FloatingButtons() {
 
       {/* Call */}
       <motion.a
-        href="tel:+918377072990"
+        href={`tel:${CONTACT_INFO.phone.raw}`}
         className="floating-btn"
         style={{ bottom: '28px', right: '24px', background: 'linear-gradient(135deg, #6366f1, #3b82f6)' }}
         initial={{ scale: 0 }}

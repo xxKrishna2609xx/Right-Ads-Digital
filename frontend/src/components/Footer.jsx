@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Phone, Mail, MapPin } from 'lucide-react'
+import { CONTACT_INFO } from '../config/contact'
 
 function FacebookIcon() {
   return (
@@ -19,14 +20,10 @@ function InstagramIcon() {
   )
 }
 
-const branches = [
-  { city: 'Noida (HQ)', address: 'A-71, 3rd Floor, Sector 15, Noida, UP 201301' },
-  { city: 'Noida Branch', address: 'B-135, 4th Floor, Sector 2, Noida, UP 201301' },
-  { city: 'Faridabad (Regd.)', address: '1718, N.E Part-2, Faridabad 121005' },
-  { city: 'Mathura Branch', address: '6/3A, Krishna Nagar, Mathura 281001' },
-  { city: 'Kota Branch', address: '80 Feet Link Road, Kota, Rajasthan 324001' },
-  { city: 'Dehradun Branch', address: 'Subhash Nagar, Dehradun' },
-]
+const branches = CONTACT_INFO.branches.map(b => ({
+  city: b.shortCity || b.city,
+  address: b.address
+}))
 
 const services = [
   { label: 'Web Design Services', href: '/services/web-design' },
@@ -83,11 +80,11 @@ export default function Footer() {
               Leading Digital Marketing Agency in Noida with 11+ years of experience. Official Google Partner & Bing Accredited Professional.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
-              <a href="tel:+918377072990" style={footerLinkStyle} onMouseEnter={e => e.currentTarget.style.color = '#818cf8'} onMouseLeave={e => e.currentTarget.style.color = '#6b7280'}>
-                <Phone size={13} /> +91-8377072990
+              <a href={`tel:${CONTACT_INFO.phone.raw}`} style={footerLinkStyle} onMouseEnter={e => e.currentTarget.style.color = '#818cf8'} onMouseLeave={e => e.currentTarget.style.color = '#6b7280'}>
+                <Phone size={13} /> {CONTACT_INFO.phone.display}
               </a>
-              <a href="mailto:info@rightads.in" style={footerLinkStyle} onMouseEnter={e => e.currentTarget.style.color = '#818cf8'} onMouseLeave={e => e.currentTarget.style.color = '#6b7280'}>
-                <Mail size={13} /> info@rightads.in
+              <a href={`mailto:${CONTACT_INFO.email}`} style={footerLinkStyle} onMouseEnter={e => e.currentTarget.style.color = '#818cf8'} onMouseLeave={e => e.currentTarget.style.color = '#6b7280'}>
+                <Mail size={13} /> {CONTACT_INFO.email}
               </a>
             </div>
             <div style={{ display: 'flex', gap: '10px' }}>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { CONTACT_INFO } from '../../config/contact'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 import { motion } from 'framer-motion'
@@ -53,9 +54,9 @@ export default function ContactSection() {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {[
-                { icon: Phone, label: 'Phone Us', value: '+91-8377072990', href: 'tel:+918377072990', color: '#6366f1' },
-                { icon: Mail, label: 'Mail Us', value: 'info@rightads.in', href: 'mailto:info@rightads.in', color: '#06b6d4' },
-                { icon: MapPin, label: 'Noida Office (HQ)', value: 'A-71, 3rd Floor, Sector 15, Noida, UP 201301', href: '#', color: '#f59e0b' },
+                { icon: Phone, label: 'Phone Us', value: CONTACT_INFO.phone.display, href: `tel:${CONTACT_INFO.phone.raw}`, color: '#6366f1' },
+                { icon: Mail, label: 'Mail Us', value: CONTACT_INFO.email, href: `mailto:${CONTACT_INFO.email}`, color: '#06b6d4' },
+                { icon: MapPin, label: 'Noida Office (HQ)', value: CONTACT_INFO.branches[0].address, href: '#', color: '#f59e0b' },
               ].map(({ icon: Icon, label, value, href, color }) => (
                 <a key={label} href={href}
                   className="card-hover"

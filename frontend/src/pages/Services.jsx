@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { CheckCircle, ArrowRight, Phone, Globe, Search, MousePointer, Smartphone, Mail, MessageSquare, Palette, Building, FileCheck, BadgeCheck } from 'lucide-react'
+import { CONTACT_INFO } from '../config/contact'
 
 const serviceData = {
   'web-design': {
@@ -283,7 +284,7 @@ export default function Services() {
                   {service.description}
                 </p>
                 <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
-                  <a href="tel:+918377072990" className="btn-primary">
+                  <a href={`tel:${CONTACT_INFO.phone.raw}`} className="btn-primary">
                     <Phone size={15} /> Call for Quote
                   </a>
                   <Link to="/contact" className="btn-outline">
@@ -340,8 +341,8 @@ export default function Services() {
             Contact our experts today for a free consultation and customized quote.
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '14px', flexWrap: 'wrap' }}>
-            <a href="tel:+918377072990" className="btn-primary">
-              <Phone size={16} /> +91-8377072990
+            <a href={`tel:${CONTACT_INFO.phone.raw}`} className="btn-primary">
+              <Phone size={16} /> {CONTACT_INFO.phone.display}
             </a>
             <Link to="/contact" className="btn-outline">Contact Us</Link>
           </div>
