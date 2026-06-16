@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Send, Briefcase, MapPin, Clock, CheckCircle, Upload } from 'lucide-react'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+import { API_URL } from '../config/api'
 
 const openings = [
   { title: 'SEO Executive', type: 'Full-time', location: 'Noida', exp: '1-3 years', desc: 'Experience in on-page, off-page SEO, keyword research, and Google Analytics.', color: '#6366f1' },

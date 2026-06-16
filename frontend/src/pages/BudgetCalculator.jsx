@@ -34,7 +34,7 @@ const Instagram = ({ size = 20, ...props }) => (
   </svg>
 );
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+import { API_URL } from '../config/api';
 
 const servicesList = [
   { id: 'seo', title: 'SEO Optimization', icon: Search, desc: 'Rank higher on Google search results.', color: '#6366f1' },

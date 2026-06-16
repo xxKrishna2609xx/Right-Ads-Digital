@@ -2,8 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Send, Phone, Mail, MapPin, CheckCircle, Clock } from 'lucide-react'
 import { CONTACT_INFO } from '../config/contact'
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+import { API_URL } from '../config/api'
 
 const branches = CONTACT_INFO.branches
 

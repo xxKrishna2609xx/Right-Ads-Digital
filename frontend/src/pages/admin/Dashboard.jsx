@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 import AdminThemeToggle from '../../components/AdminThemeToggle';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+import { API_URL } from '../../config/api';
 
 export default function Dashboard() {
   const { logout, getFreshToken } = useAuth();

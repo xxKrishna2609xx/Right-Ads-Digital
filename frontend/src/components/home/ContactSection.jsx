@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { CONTACT_INFO } from '../../config/contact'
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+import { API_URL } from '../../config/api'
 import { motion } from 'framer-motion'
 import { Send, Phone, Mail, MapPin, CheckCircle } from 'lucide-react'
 
